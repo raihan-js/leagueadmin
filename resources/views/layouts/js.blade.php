@@ -17,5 +17,8 @@
 <script src="{{ asset('assets/js/dashboards-analytics.js') }}"></script>
 <script src="{{ asset('assets/js/ui-modals.js') }}"></script>
 
+<!-- Custom JS -->
+<script src="{{ asset('assets/js/custom/admin.js') }}"></script>
+
 <!-- Place this tag in your head or just before your close body tag. -->
 <script async defer src="https://buttons.github.io/buttons.js"></script>

@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\AdminAuthController;
 use App\Http\Controllers\Admin\AdminPageController;
 use App\Http\Controllers\Admin\PermissionController;
+use App\Http\Controllers\Admin\RoleController;
 use Illuminate\Support\Facades\Route;
 
 // Routes for "Admin" (with middleware 'admin.redirect')
@@ -21,6 +22,7 @@ Route::group([ 'middleware' => 'admin' ], function(){
 
     // Pages
     Route::resource('permissions', PermissionController::class);
+    Route::resource('roles', RoleController::class);
 });
 
 

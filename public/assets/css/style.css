@@ -122,3 +122,26 @@
   text-align: center;
   margin-top: 1rem;
 }
+
+
+.alert-primary {
+  background-color: #CAF0F8;
+  border-color: #CAF0F8;
+  color: #0077B6;
+}
+
+.alert-success {
+  background-color: #daffc8;
+  border-color: #daffc8;
+  color: #2c7e00;
+}
+
+.update-input {
+  padding-left: 25px;
+  padding-right: 25px;
+  padding-bottom: 25px;
+}
+
+.refresh-icon:hover{
+  color:#00B4D8;
+}

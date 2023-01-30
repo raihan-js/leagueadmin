@@ -4,10 +4,11 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Permission;
+use App\Models\Role;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
-class PermissionController extends Controller
+class RoleController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,10 +17,12 @@ class PermissionController extends Controller
      */
     public function index()
     {
+        $roles = Role::latest()->get();
         $permissions = Permission::latest()->get();
-        return view('pages.user.permission.index', [
-            'all_permissions' => $permissions,
+        return view('pages.user.role.index', [
+            'all_roles' => $roles,
             'type'            => '',
+            'permissions'     => $permissions,
         ]);
     }
 
@@ -43,16 +46,17 @@ class PermissionController extends Controller
     {
         // Fields Validation
         $this->validate($request, [
-            'name'      => 'required|unique:permissions',
+            'name'      => 'required|unique:roles',
         ]);
 
         // Data Store
-        Permission::create([
+        Role::create([
             'name'      => $request->name,
             'slug'      => Str::slug($request->name),
+            'permissions' => json_encode($request->permissions),
         ]);
 
-        return back()->with('success', 'Permission added successfully');
+        return back()->with('success', 'Role added successfully');
     }
 
     /**
@@ -74,12 +78,14 @@ class PermissionController extends Controller
      */
     public function edit($id)
     {
+        $roles = Role::latest()->get();
         $permissions = Permission::latest()->get();
-        $per = Permission::findOrFail($id);
-        return view('pages.user.permission.index', [
+        $per = Role::findOrFail($id);
+        return view('pages.user.role.index', [
             'edit'            => $per,
-            'all_permissions' => $permissions,
+            'all_roles'       => $roles,
             'type'            => 'edit',
+            'permissions'     => $permissions,
         ]);
     }
 
@@ -92,12 +98,12 @@ class PermissionController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $update_data = Permission::findOrFail($id);
+        $update_data = Role::findOrFail($id);
         $update_data->update([
             'name'      => $request->name,
             'slug'      => Str::slug($request->name),
         ]);
-        return back()->with('success', 'Permission updated successfully');
+        return back()->with('success', 'Role updated successfully');
     }
 
     /**
@@ -108,8 +114,8 @@ class PermissionController extends Controller
      */
     public function destroy($id)
     {
-        $delete = Permission::findOrFail($id);
+        $delete = Role::findOrFail($id);
         $delete->delete();
-        return back()->with('success', 'Permission deleted successfully');
+        return back()->with('success', 'Role deleted successfully');
     }
 }
