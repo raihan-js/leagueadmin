@@ -102,6 +102,7 @@ class RoleController extends Controller
         $update_data->update([
             'name'      => $request->name,
             'slug'      => Str::slug($request->name),
+            'permissions' => json_encode($request->permissions),
         ]);
         return back()->with('success', 'Role updated successfully');
     }

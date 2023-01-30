@@ -93,7 +93,7 @@
                                 <a  class="dropdown-item" href="{{ route('permissions.edit', $per->id) }}"><i class='bx bx-edit'></i> Edit</a>
                               
 
-                              <form action="{{ route('permissions.destroy', $per->id) }}" method="POST">
+                              <form action="{{ route('permissions.destroy', $per->id) }}" method="POST" class="delete-form">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" class="dropdown-item" href="#"><i class="bx bx-trash me-1"></i> Delete</button>

@@ -178,9 +178,13 @@
                 </div>
                 
                 <label class="form-label" for="">Permissions</label>
-                    @forelse ($permissions as $item)
+                    @forelse (json_decode($permissions) as $item)
                     <div class="form-check">
-                        <input name="permissions[]" class="form-check-input" type="checkbox" value="{{ $item->name }}" id="defaultCheck3">
+                        <input 
+                        @if (in_array($item->name, json_decode($edit->permissions)))
+                            checked
+                        @endif 
+                        name="permissions[]" class="form-check-input" type="checkbox" value="{{ $item->name }}" id="defaultCheck3">
                         <label class="form-check-label" for="defaultCheck3">
                         {{ $item->name }}
                         </label>
