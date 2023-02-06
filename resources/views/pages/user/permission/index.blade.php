@@ -3,6 +3,36 @@
       <!-- Content -->
 
       <div class="container-xxl flex-grow-1 container-p-y">
+
+        @if ($type=='edit')
+        <div class="row">
+          <div class="col-lg-6 col-md-6 col-12 mb-4">
+            <div class="card">
+              
+              <div class="row">
+                <div class="col-md-12">
+                  <h5 class="card-header">Edit Permission</h5>
+                  <form method="POST" action="{{ route('permissions.update', $edit->id) }}" class="">
+                    @csrf
+                    @method('PUT')
+                    <div class="mb-0" style="margin-left: 25px">
+                      <label class="form-label" for="">Permission Name</label>
+                    </div>
+                    <div class="input-group update-input">
+                      <input type="text" class="form-control" name="name" value="{{ $edit->name }}" required>
+                      <button class="btn btn-outline-primary" type="submit" id="button-addon2">Update</button>
+                    </div>
+                  </form>
+                </div>
+                
+                
+              </div>
+  
+            </div>
+          </div>
+        </div>
+            
+        @endif
         
 
         {{-- Table row --}}
@@ -136,35 +166,7 @@
         </div>
         {{-- End Table row --}}
 
-        @if ($type=='edit')
-        <div class="row">
-          <div class="col-lg-6 col-md-6 col-12 mb-4">
-            <div class="card">
-              
-              <div class="row">
-                <div class="col-md-12">
-                  <h5 class="card-header">Edit Permission</h5>
-                  <form method="POST" action="{{ route('permissions.update', $edit->id) }}" class="">
-                    @csrf
-                    @method('PUT')
-                    <div class="mb-0" style="margin-left: 25px">
-                      <label class="form-label" for="">Permission Name</label>
-                    </div>
-                    <div class="input-group update-input">
-                      <input type="text" class="form-control" name="name" value="{{ $edit->name }}" required>
-                      <button class="btn btn-outline-primary" type="submit" id="button-addon2">Update</button>
-                    </div>
-                  </form>
-                </div>
-                
-                
-              </div>
-  
-            </div>
-          </div>
-        </div>
-            
-        @endif
+
       
         
 

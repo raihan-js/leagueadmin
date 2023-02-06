@@ -4,6 +4,56 @@
 <!-- Content -->
 
 <div class="container-xxl flex-grow-1 container-p-y">
+
+
+  @if ($type=='edit')
+  <div class="row">
+    <div class="col-lg-6 col-md-6 col-12 mb-4">
+      <div class="card">
+        
+        <div class="row">
+          <div class="col-md-12">
+            <h5 class="card-header">Edit Role</h5>
+
+
+            <form method="POST" action="{{ route('roles.update', $edit->id) }}" class="update-input">
+              @csrf
+              @method('PUT')
+              <div class="mb-3 ">
+                <label class="form-label" for="">Role Name</label>
+                <input type="text" name="name" value="{{ $edit->name }}" class="form-control" id="" placeholder=""  required>
+              </div>
+              
+              <label class="form-label" for="">Permissions</label>
+                  @forelse (json_decode($permissions) as $item)
+                  <div class="form-check">
+                      <input 
+                      @if (in_array($item->name, json_decode($edit->permissions)))
+                          checked
+                      @endif 
+                      name="permissions[]" class="form-check-input" type="checkbox" value="{{ $item->name }}" id="defaultCheck3">
+                      <label class="form-check-label" for="defaultCheck3">
+                      {{ $item->name }}
+                      </label>
+                  </div>
+                  @empty
+                      
+                  @endforelse
+              <button type="submit" class="btn btn-primary mt-4">Update</button>
+            </form>
+
+
+            
+          </div>
+          
+          
+        </div>
+
+      </div>
+    </div>
+  </div>
+      
+  @endif
         
 
     {{-- Table row --}}
@@ -159,54 +209,7 @@
     </div>
     {{-- End Table row --}}
 
-    @if ($type=='edit')
-    <div class="row">
-      <div class="col-lg-6 col-md-6 col-12 mb-4">
-        <div class="card">
-          
-          <div class="row">
-            <div class="col-md-12">
-              <h5 class="card-header">Edit Role</h5>
 
-
-              <form method="POST" action="{{ route('roles.update', $edit->id) }}" class="update-input">
-                @csrf
-                @method('PUT')
-                <div class="mb-3 ">
-                  <label class="form-label" for="">Role Name</label>
-                  <input type="text" name="name" value="{{ $edit->name }}" class="form-control" id="" placeholder=""  required>
-                </div>
-                
-                <label class="form-label" for="">Permissions</label>
-                    @forelse (json_decode($permissions) as $item)
-                    <div class="form-check">
-                        <input 
-                        @if (in_array($item->name, json_decode($edit->permissions)))
-                            checked
-                        @endif 
-                        name="permissions[]" class="form-check-input" type="checkbox" value="{{ $item->name }}" id="defaultCheck3">
-                        <label class="form-check-label" for="defaultCheck3">
-                        {{ $item->name }}
-                        </label>
-                    </div>
-                    @empty
-                        
-                    @endforelse
-                <button type="submit" class="btn btn-primary mt-4">Update</button>
-              </form>
-
-
-              
-            </div>
-            
-            
-          </div>
-
-        </div>
-      </div>
-    </div>
-        
-    @endif
   
     
 
