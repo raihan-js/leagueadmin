@@ -104,7 +104,8 @@ class RoleController extends Controller
             'slug'      => Str::slug($request->name),
             'permissions' => json_encode($request->permissions),
         ]);
-        return back()->with('success', 'Role updated successfully');
+        return redirect()->route('roles.index')->with('success', 'Role updated successfully');
+        
     }
 
     /**

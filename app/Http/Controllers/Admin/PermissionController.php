@@ -97,7 +97,7 @@ class PermissionController extends Controller
             'name'      => $request->name,
             'slug'      => Str::slug($request->name),
         ]);
-        return back()->with('success', 'Permission updated successfully');
+        return redirect()->route('permissions.index')->with('success', 'Permission updated successfully');
     }
 
     /**
