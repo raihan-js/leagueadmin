@@ -212,13 +212,7 @@
         </div>
         {{-- End Table row --}}
       
-        {{-- "Create" Modal --}}
-            <!-- Modal Button -->
-            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalCenter">Create</button>
-            <!-- End Modal Button -->  
-            {{-- Modal --}}
-            @include('modals.create')
-        {{-- End "Create" Modal --}}
+      
 
        
         
