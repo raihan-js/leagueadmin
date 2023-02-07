@@ -54,11 +54,11 @@ class AdminController extends Controller
 
         // Data Store
         Admin::create([
-            'name'      => $request->name,
-            'email'      => $request->email,
+            'name'          => $request->name,
+            'email'         => $request->email,
             'username'      => $request->username,
-            'phone'      => $request->phone,
-            'role_id'    => $request->role,
+            'phone'         => $request->phone,
+            'role_id'       => $request->role,
             'password'      => Hash::make($request->password),
         ]);
 
@@ -128,4 +128,22 @@ class AdminController extends Controller
         $delete->delete();
         return back()->with('success', 'User deleted successfully');
     }
+
+
+    public function updateStatus($id){
+        $data = Admin::findOrFail($id);
+
+        if($data ->status){
+            $data->update([
+                'status'    => false,
+            ]);
+        }else{
+            $data->update([
+                'status'    => true,
+            ]);
+        }
+
+        return back()->with('success', 'Status updated successfully');
+    }
+    
 }

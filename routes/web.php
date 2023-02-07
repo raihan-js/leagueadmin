@@ -25,6 +25,8 @@ Route::group([ 'middleware' => 'admin' ], function(){
     Route::resource('permissions', PermissionController::class);
     Route::resource('roles', RoleController::class);
     Route::resource('admins', AdminController::class);
+    // Status update GET
+    Route::get('update-status/{id}', [AdminController::class, 'updateStatus'])->name('update.status');
 });
 
 

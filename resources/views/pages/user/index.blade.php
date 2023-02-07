@@ -190,7 +190,7 @@
                   <th>Phone</th>
                   <th>Role</th>
                   <th>Created at</th>
-                
+                  <th>Status</th>
                   <th>Action</th>
                 </tr>
               </thead>
@@ -204,8 +204,21 @@
                     <td>{{ $item->email }}</td>                     
                     <td>{{ $item->username }}</td>                     
                     <td>{{ $item->phone }}</td>                     
-                    <td><span class="badge bg-label-primary me-1">{{ $item->role_id }}</span></td>                     
+                    <td><span class="badge bg-label-primary me-1">{{ $item->role->name }}</span></td>                     
                     <td>{{ $item->created_at->diffForHumans() }}</td>
+                    <td>
+                      <form action="{{ route('update.status', $item->id) }}" method="GET">
+                        <div class="form-check form-switch mb-2">
+                          <input style="cursor: pointer;" name="status" class="form-check-input" type="checkbox" id="flexSwitchCheckChecked" onChange="this.form.submit()"
+                          @if ($item->status)
+                              checked
+                          @else
+
+                          @endif 
+                          >
+                        </div>
+                      </form>
+                    </td>
                     
                     <td>
                         <div class="dropdown">
