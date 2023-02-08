@@ -36,7 +36,7 @@
 
         <ul class="menu-sub">
           <li class="menu-item">
-            <a href="#" class="menu-link">
+            <a href="{{ route('leagues.index') }}" class="menu-link">
               <div data-i18n="Without menu">All Leagues</div>
             </a>
           </li>
