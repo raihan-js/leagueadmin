@@ -12,60 +12,40 @@
           
           <div class="row">
             <div class="col-md-12">
-              <h5 class="card-header">Edit league</h5>
+              <h5 class="card-header">Edit Team</h5>
   
   
-              <form method="POST" action="{{ route('leagues.update', $edit->id) }}" class="update-input">
+              <form method="POST" action="{{ route('teams.update', $edit->id) }}" class="update-input">
                 @csrf
                 @method('PUT')
                 <div class="row">
-                  <div class="mb-3 col-md-6">
-                  <label class="form-label" for="">League Title</label>
-                  <input type="text" name="title" class="form-control" id="" placeholder="League 1" required value="{{$edit->title}}">
-                  </div>
+                    <div class="mb-3 col-md-6">
+                    <label class="form-label" for="">Team Name</label>
+                    <input type="text" name="name" class="form-control" id="" placeholder="League 1" required value="{{$edit->name}}">
+                    </div>
 
-                  <div class="mb-3 col-md-6">
-                      <label for="defaultSelect" class="form-label">Type of league</label>
-                      <select name="type" id="defaultSelect" class="form-select">
-                      <option>Select type</option>
-                          <option value="Kickball">Kickball</option>
-                          <option value="Dodgeball">Dodgeball</option>
-                          <option value="Bowling">Bowling</option>
-                      </select>
-                  </div>
+                    <div class="mb-3 col-md-6">
+                        <label for="defaultSelect" class="form-label">Team Sport</label>
+                        <select name="sport" id="defaultSelect" class="form-select">
+                        <option>Select sport</option>
+                            <option value="Kickball">Kickball</option>
+                            <option value="Dodgeball">Dodgeball</option>
+                            <option value="Bowling">Bowling</option>
+                        </select>
+                    </div>
 
-                  <div class="mb-3 col-md-6">
-                      <label class="form-label" for="">Start date</label>
-                      <input type="date" name="start_date" class="form-control" id="" placeholder="" required value="{{$edit->start_date}}">
-                  </div>
+                    <div class="mb-3 col-md-6">
+                        <label class="form-label" for="">Team Captain</label>
+                        <input type="text" name="captain" class="form-control" id="" placeholder="Captain name..." required value="{{$edit->captain}}">
+                    </div>
 
-                  <div class="mb-3 col-md-6">
-                      <label class="form-label" for="">Number of weeks</label>
-                      <input type="number" name="weeks" class="form-control" id="" placeholder="" required value="{{$edit->weeks}}">
-                  </div>
-
-                  <div class="mb-3 col-md-6">
-                      <label for="defaultSelect" class="form-label">Ump/Ref</label>
-                      <select name="role" id="defaultSelect" class="form-select">
-                      <option>Select Ump/Ref</option>
-                          {{-- @foreach ($all_roles as $item)
-                          <option value="{{ $item -> id }}">{{ $item -> name }}</option>
-                          @endforeach --}}
-                      </select>
-                  </div>
-                  
-                  <div class="mb-3 col-md-6">
-                      <label for="defaultSelect" class="form-label">Secondary Ump/Ref</label>
-                      <select name="role" id="defaultSelect" class="form-select">
-                      <option>Select Ump/Ref</option>
-                          {{-- @foreach ($all_roles as $item)
-                          <option value="{{ $item -> id }}">{{ $item -> name }}</option>
-                          @endforeach --}}
-                      </select>
-                  </div>
-                  
-                  
-              </div>
+                    <div class="mb-3 col-md-6">
+                        <label class="form-label" for="">Division</label>
+                        <input type="text" name="division" class="form-control" id="" placeholder="A, B, C" required value="{{$edit->division}}">
+                    </div>
+                    
+                    
+                </div>
                 {{-- <div class="row">
                     <div class="mb-3 col-md-6">
                     <label class="form-label" for="">Name</label>
@@ -142,22 +122,22 @@
         <div class="card">
           
           <div class="row">
-            <div class="col-md-4"><h5 class="card-header">All Leagues</h5></div>
+            <div class="col-md-4"><h5 class="card-header">All Teams</h5></div>
             <div class="col-md-4 pt-3 px-3">@include('validate')</div>
             <div class="col-md-4">
                 <div class="d-flex flex-row-reverse">
                     <div class="pt-3 px-3">   
                       {{-- Create User button --}}
-                      <a  data-bs-toggle="tooltip" data-bs-offset="0,4" data-bs-placement="left" data-bs-html="true" title="" data-bs-original-title="<i class='bx bx-refresh bx-xs' ></i> <span>Refresh Data</span>" class="d-inline px-3" href="{{ route('leagues.index')}}"><i class='bx bx-refresh refresh-icon' style="font-size: 24px"></i></a>
+                      <a  data-bs-toggle="tooltip" data-bs-offset="0,4" data-bs-placement="left" data-bs-html="true" title="" data-bs-original-title="<i class='bx bx-refresh bx-xs' ></i> <span>Refresh Data</span>" class="d-inline px-3" href="{{ route('teams.index')}}"><i class='bx bx-refresh refresh-icon' style="font-size: 24px"></i></a>
                       
-                      <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createUser">Create League</button>
+                      <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createUser">Create Team</button>
                       
                       {{-- Create Permission Modal --}}
                       <div class="modal fade" id="createUser" tabindex="-1" aria-hidden="true">
                         <div class="modal-dialog modal-dialog-centered" role="document">
                           <div class="modal-content">
                             <div class="modal-header">
-                              <h5 class="modal-title" id="modalCenterTitle">Create New League</h5>
+                              <h5 class="modal-title" id="modalCenterTitle">Create New Team</h5>
                               <button
                                 type="button"
                                 class="btn-close"
@@ -169,18 +149,18 @@
                             <div class="modal-body">
                               
                               {{-- Modal Input Group --}}
-                                  <form method="POST" action="{{ route('leagues.store') }}">
+                                  <form method="POST" action="{{ route('teams.store') }}">
                                     @csrf
                                     <div class="row">
                                         <div class="mb-3 col-md-6">
-                                        <label class="form-label" for="">League Title</label>
-                                        <input type="text" name="title" class="form-control" id="" placeholder="League 1" required>
+                                        <label class="form-label" for="">Team Name</label>
+                                        <input type="text" name="name" class="form-control" id="" placeholder="League 1" required>
                                         </div>
 
                                         <div class="mb-3 col-md-6">
-                                            <label for="defaultSelect" class="form-label">Type of league</label>
-                                            <select name="type" id="defaultSelect" class="form-select">
-                                            <option>Select type</option>
+                                            <label for="defaultSelect" class="form-label">Team Sport</label>
+                                            <select name="sport" id="defaultSelect" class="form-select">
+                                            <option>Select sport</option>
                                                 <option value="Kickball">Kickball</option>
                                                 <option value="Dodgeball">Dodgeball</option>
                                                 <option value="Bowling">Bowling</option>
@@ -188,33 +168,13 @@
                                         </div>
 
                                         <div class="mb-3 col-md-6">
-                                            <label class="form-label" for="">Start date</label>
-                                            <input type="date" name="start_date" class="form-control" id="" placeholder="" required>
+                                            <label class="form-label" for="">Team Captain</label>
+                                            <input type="text" name="captain" class="form-control" id="" placeholder="Captain name..." required>
                                         </div>
 
                                         <div class="mb-3 col-md-6">
-                                            <label class="form-label" for="">Number of weeks</label>
-                                            <input type="number" name="weeks" class="form-control" id="" placeholder="" required>
-                                        </div>
-
-                                        <div class="mb-3 col-md-6">
-                                            <label for="defaultSelect" class="form-label">Ump/Ref</label>
-                                            <select name="role" id="defaultSelect" class="form-select">
-                                            <option>Select Ump/Ref</option>
-                                                {{-- @foreach ($all_roles as $item)
-                                                <option value="{{ $item -> id }}">{{ $item -> name }}</option>
-                                                @endforeach --}}
-                                            </select>
-                                        </div>
-                                        
-                                        <div class="mb-3 col-md-6">
-                                            <label for="defaultSelect" class="form-label">Secondary Ump/Ref</label>
-                                            <select name="role" id="defaultSelect" class="form-select">
-                                            <option>Select Ump/Ref</option>
-                                                {{-- @foreach ($all_roles as $item)
-                                                <option value="{{ $item -> id }}">{{ $item -> name }}</option>
-                                                @endforeach --}}
-                                            </select>
+                                            <label class="form-label" for="">Division</label>
+                                            <input type="text" name="division" class="form-control" id="" placeholder="A, B, C" required>
                                         </div>
                                         
                                         
@@ -242,27 +202,23 @@
               <thead>
                 <tr>
                   <th>SN</th>
-                  <th>League Title</th>
-                  <th>Type of league</th>
-                  <th>Start date</th>
-                  <th>Weeks</th>
-                  <th>Ump/Ref</th>
-                  <th>Secondary Ump/Ref</th>
+                  <th>Team Name</th>
+                  <th>Team Sport</th>
+                  <th>Team Captain</th>
+                  <th>Division</th>
                   <th>Created</th>
                   <th>Action</th>
                 </tr>
               </thead>
               <tbody class="table-border-bottom-0">
-                @forelse ($all_leagues as $item)
+                @forelse ($all_teams as $item)
 
                 <tr>
                     <td>{{ $loop -> index + 1 }}</td>
-                    <td><strong>{{ $item->title }}</strong></td>
-                    <td>{{ $item->type }}</td>                     
-                    <td>{{ $item->start_date }}</td>                     
-                    <td>{{ $item->weeks }}</td>                     
-                    <td>Ump 1</td>                     
-                    <td>Ump 3</td>                                         
+                    <td><strong>{{ $item->name }}</strong></td>
+                    <td>{{ $item->sport }}</td>                     
+                    <td>{{ $item->captain }}</td>                     
+                    <td>{{ $item->division }}</td>                                                            
                     {{-- <td><span class="badge bg-label-primary me-1">@if($item->role){{ $item->role->name }}@else No Role Assigned @endif</span></td>                      --}}
                     <td>{{ $item->created_at->diffForHumans() }}</td>
                     
@@ -272,10 +228,10 @@
                           <div class="dropdown-menu">
   
                             
-                              <a class="dropdown-item" href="{{ route('leagues.edit', $item->id) }}"><i class='bx bx-edit'></i> Edit</a>
+                              <a class="dropdown-item" href="{{ route('teams.edit', $item->id) }}"><i class='bx bx-edit'></i> Edit</a>
                             
   
-                            <form action="{{ route('leagues.destroy', $item->id) }}" method="POST" class="delete-form">
+                            <form action="{{ route('teams.destroy', $item->id) }}" method="POST" class="delete-form">
                               @csrf
                               @method('DELETE')
                               <button type="submit" class="dropdown-item" href="#"><i class="bx bx-trash me-1"></i> Delete</button>
@@ -299,7 +255,7 @@
                       <tr>
                         <td>
                           <div class="alert alert-primary" role="alert">
-                            No Leagues Found
+                            No Teams Found
                           </div>
                         </td>
                         

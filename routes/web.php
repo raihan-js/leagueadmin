@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\AdminPageController;
 use App\Http\Controllers\Admin\PermissionController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\League\LeagueController;
+use App\Http\Controllers\Team\TeamController;
 use Illuminate\Support\Facades\Route;
 
 // Routes for "Admin" (with middleware 'admin.redirect')
@@ -27,6 +28,7 @@ Route::group([ 'middleware' => 'admin' ], function(){
     Route::resource('roles', RoleController::class);
     Route::resource('admins', AdminController::class);
     Route::resource('leagues', LeagueController::class);
+    Route::resource('teams', TeamController::class);
     // Status update GET
     Route::get('update-status/{id}', [AdminController::class, 'updateStatus'])->name('update.status');
 });

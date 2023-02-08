@@ -58,21 +58,21 @@
 
         <ul class="menu-sub">
           <li class="menu-item">
-            <a href="#" class="menu-link">
+            <a href="{{ route('teams.index') }}" class="menu-link">
               <div data-i18n="Without menu">All Teams</div>
             </a>
           </li>
-          <li class="menu-item">
+          {{-- <li class="menu-item">
             <a href="#" class="menu-link">
               <div data-i18n="Without navbar">Add Team</div>
             </a>
-          </li>
+          </li> --}}
         </ul>
       </li>
       {{-- End Teams --}}
 
       {{-- Games --}}
-      <li class="menu-item">
+      {{-- <li class="menu-item">
         <a href="javascript:void(0);" class="menu-link menu-toggle">
           <i class="menu-icon tf-icons bx bx-baseball"></i>
           <div data-i18n="Layouts">Games</div>
@@ -90,7 +90,7 @@
             </a>
           </li>
         </ul>
-      </li>
+      </li> --}}
       {{-- End Games --}}
 
       {{-- Schedule --}}
