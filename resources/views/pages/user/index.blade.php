@@ -204,7 +204,7 @@
                     <td>{{ $item->email }}</td>                     
                     <td>{{ $item->username }}</td>                     
                     <td>{{ $item->phone }}</td>                     
-                    <td><span class="badge bg-label-primary me-1">{{ $item->role->name }}</span></td>                     
+                    <td><span class="badge bg-label-primary me-1">@if($item->role){{ $item->role->name }}@else No Role Assigned @endif</span></td>                     
                     <td>{{ $item->created_at->diffForHumans() }}</td>
                     <td>
                       <form action="{{ route('update.status', $item->id) }}" method="GET">

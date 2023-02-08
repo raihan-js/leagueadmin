@@ -22,7 +22,7 @@ return new class extends Migration
             $table->string('image')->default('admin.png');
             $table->string('password');
             $table->string('user_type');
-            $table->string('teams');
+            $table->string('teams')->nullable();
             $table->string('slack_id')->nullable();
             $table->unsignedInteger('role_id')->default(1);
             $table->string('access_token')->nullable();
