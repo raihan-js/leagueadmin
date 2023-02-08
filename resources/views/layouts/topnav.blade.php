@@ -27,7 +27,9 @@
         <li class="nav-item navbar-dropdown dropdown-user dropdown">
           <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown">
             <div class="avatar">
-              <img src="{{ asset('assets/img/avatars/1.png') }}" alt class="w-px-40 h-auto rounded-circle" />
+              {{-- <img src="{{ asset('assets/img/avatars/1.png') }}" alt class="w-px-40 h-auto rounded-circle" /> --}}
+              {{-- <span class="badge badge-center bg-primary w-px-40 h-px-40 rounded-circle"><i class='bx bxs-user' style="font-size: 17px"></i></span> --}}
+              <span class="badge badge-center bg-primary w-px-40 h-px-40 rounded-circle" style="font-size:16px">{{ Auth::guard('admin') -> user() -> name[0] }}</span>
             </div>
           </a>
           <ul class="dropdown-menu dropdown-menu-end">
@@ -36,13 +38,13 @@
                 <div class="d-flex">
                   <div class="flex-shrink-0 me-3">
                     <div class="avatar">
-                      <img src="{{ asset('assets/img/avatars/1.png') }}" alt class="w-px-40 h-auto rounded-circle" />
+                      <span class="badge badge-center bg-primary w-px-40 h-px-40 rounded-circle">{{ Auth::guard('admin') -> user() -> name[0] }}</span>
                     </div>
                   </div>
                   <div class="flex-grow-1">
                     {{-- User's Name --}}
-                    <span class="fw-semibold d-block">John Doe</span>
-                    <small class="text-muted">Admin</small>
+                    <span class="fw-semibold d-block">{{ Auth::guard('admin') -> user() -> name }}</span>
+                    <small class="text-muted">{{ Auth::guard('admin') -> user() -> role->name }}</small>
                   </div>
                 </div>
               </a>
@@ -51,19 +53,25 @@
               <div class="dropdown-divider"></div>
             </li>
             <li>
-              <a class="dropdown-item" href="#">
+              <a class="dropdown-item" href="{{ route('admin.account') }}">
                 <i class="bx bx-user me-2"></i>
-                <span class="align-middle">My Profile</span> 
+                <span class="align-middle">My Account</span> 
               </a>
             </li>
             <li>
-              <a class="dropdown-item" href="#">
+              <a class="dropdown-item" href="{{ route('admin.notifications') }}">
                 <i class='bx bx-bell me-2'></i>
                 <span class="align-middle">Notifications</span>
               </a>
             </li>
             <li>
-              <a class="dropdown-item" href="#">
+              <a class="dropdown-item" href="{{ route('admin.connections') }}">
+                <i class='bx bx-shape-triangle me-2'></i>
+                <span class="align-middle">Connections</span>
+              </a>
+            </li>
+            <li>
+              <a class="dropdown-item" href="{{ route('admin.account') }}">
                 <i class="bx bx-cog me-2"></i>
                 <span class="align-middle">Settings</span>
               </a>

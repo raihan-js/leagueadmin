@@ -9,6 +9,13 @@ use App\Http\Controllers\League\LeagueController;
 use App\Http\Controllers\Team\TeamController;
 use Illuminate\Support\Facades\Route;
 
+
+// Redirection
+Route::get('/', function () {
+    return redirect('dashboard');
+});
+
+
 // Routes for "Admin" (with middleware 'admin.redirect')
 Route::group([ 'middleware' => 'admin.redirect' ], function(){
     Route::get('admin/login',[AdminAuthController::class, 'showAdminLogin'])->name('admin.login');
@@ -22,6 +29,9 @@ Route::group([ 'middleware' => 'admin.redirect' ], function(){
 Route::group([ 'middleware' => 'admin' ], function(){
     Route::get('dashboard',[AdminPageController::class, 'showAdminDashboard'])->name('admin.dashboard');
     Route::get('logout', [AdminAuthController::class, 'logout'])->name('admin.logout');
+    Route::get('account', [AdminPageController::class, 'showAdminAccount'])->name('admin.account');
+    Route::get('account/notifications', [AdminPageController::class, 'showAdminNotifications'])->name('admin.notifications');
+    Route::get('account/connections', [AdminPageController::class, 'showAdminConnections'])->name('admin.connections');
 
     // Pages
     Route::resource('permissions', PermissionController::class);
