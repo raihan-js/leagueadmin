@@ -146,13 +146,16 @@
 
                                         <div class="mb-3 col-md-6">
                                             <label class="form-label" for="">Password</label>
+                                            <a  class="" data-bs-toggle="tooltip" data-bs-offset="0,4" data-bs-placement="top" data-bs-html="true" title="" data-bs-original-title="<span>Put 0 to autogenerate password</span>">
+                                              <i class='bx bx-info-circle'></i>
+                                            </a>
                                             <input type="text" name="password" class="form-control" id="" placeholder="" required>
                                         </div>
                                         
                                         <div class="mb-3 col-md-6">
                                             <label for="defaultSelect" class="form-label">Role</label>
-                                            <select name="role" id="defaultSelect" class="form-select">
-                                            <option>Select role</option>
+                                            <select  name="role" id="defaultSelect" class="form-select" required>
+                                            <option value="">Select role</option>
                                                 @foreach ($all_roles as $item)
                                                 <option value="{{ $item -> id }}">{{ $item -> name }}</option>
                                                 @endforeach

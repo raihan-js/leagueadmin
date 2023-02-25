@@ -51,6 +51,7 @@ class AdminController extends Controller
             'username'      => 'required|unique:admins',
             'email'      => 'required|unique:admins',
             'phone'      => 'required|unique:admins',
+            'role'      => 'required',
         ]);
 
         // Password String Creation
