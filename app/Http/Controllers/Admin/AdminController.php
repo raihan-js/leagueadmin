@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Admin;
 use App\Models\Role;
+use App\Notifications\UserAccountInfoNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
@@ -52,15 +53,28 @@ class AdminController extends Controller
             'phone'      => 'required|unique:admins',
         ]);
 
+        // Password String Creation
+        $password_string = str_shuffle('qwertyuiopasdfghjklzxcvbnm1234567890!@#$');
+
+        // If password put 0 when creation an auto password will be created, otherwise the input password
+        if($request->password == '0'){
+            $pass = substr($password_string, 10, 10);
+        }else {
+            $pass = $request->password;
+        }
+        
+
         // Data Store
-        Admin::create([
+        $user = Admin::create([
             'name'          => $request->name,
             'email'         => $request->email,
             'username'      => $request->username,
             'phone'         => $request->phone,
             'role_id'       => $request->role,
-            'password'      => Hash::make($request->password),
+            'password'      => Hash::make($pass),
         ]);
+
+        $user -> notify(new UserAccountInfoNotification([$user['name'], $pass])); //Passed user's name and the password
 
         return back()->with('success', 'User created successfully');
     }
