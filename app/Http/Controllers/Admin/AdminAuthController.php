@@ -23,7 +23,15 @@ class AdminAuthController extends Controller
         // Login Attempt
         if( Auth::guard('admin') -> attempt([ 'email' => $request -> email, 'password' => $request -> password ]) || Auth::guard('admin') -> attempt([ 'username' => $request -> email, 'password' => $request -> password ]) ){
 
-            return redirect()->route('admin.dashboard');
+            //If status is false, user can't login
+            if(Auth::guard('admin')->user()->status){
+                return redirect()->route('admin.dashboard');
+            }else{
+                Auth::guard('admin')->logout();
+                return redirect()->route('admin.login')->with('danger', 'Your account is not activated by the authority');
+            }
+
+            
 
         }
         else{

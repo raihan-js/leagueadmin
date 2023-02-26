@@ -22,9 +22,6 @@ class UserAccountInfoNotification extends Notification
     {
         $this -> name = $data[0];
         $this -> password = $data[1];
-        // $this -> name = $user->name;
-        // $this -> password = $pass;
-        // $this -> password = $data[1];
     }
 
     /**
@@ -46,10 +43,13 @@ class UserAccountInfoNotification extends Notification
      */
     public function toMail($notifiable)
     {
+        $url = url('https://leagueadmin.net/dashboard');
         return (new MailMessage)
-                    ->line('Hi ' . $this->name . ', Welcome to LeagueAdmin!')
+                    ->greeting('Hi! ' . $this->name)
+                    ->line('Welcome to LeagueAdmin!')
                     ->line('Your account has been created.')
-                    ->line('Your password: ' . $this->password );
+                    ->line('Your password: ' . $this->password )
+                    ->action('Login', $url);
     }
 
     /**

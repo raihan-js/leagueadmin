@@ -58,7 +58,7 @@ class AdminController extends Controller
         $password_string = str_shuffle('qwertyuiopasdfghjklzxcvbnm1234567890!@#$');
 
         // If password put 0 when creation an auto password will be created, otherwise the input password
-        if($request->password == '0'){
+        if($request->password == NULL){
             $pass = substr($password_string, 10, 10);
         }else {
             $pass = $request->password;
