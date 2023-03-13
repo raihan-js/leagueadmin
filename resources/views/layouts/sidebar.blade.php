@@ -17,6 +17,10 @@
 
 
     {{-- Sidebar Menu Start --}}
+    <li class="menu-header small text-uppercase">
+      <span class="menu-header-text">Super Admin Panel</span>
+    </li>
+
     <ul class="menu-inner py-1">
       <!-- Dashboard -->
       <li class="menu-item">
@@ -125,6 +129,7 @@
       {{-- End Availability --}}
 
       {{-- User Management --}}
+      @if( in_array( 'User Management', json_decode( Auth::guard('admin')->user()->role->permissions ) ) )
       <li class="menu-item">
         <a href="javascript:void(0);" class="menu-link menu-toggle">
           <i class="menu-icon tf-icons bx bx-user-pin"></i>
@@ -149,7 +154,8 @@
           </li>
         </ul>
       </li>
-      {{-- End Schedule --}}
+      @endif
+      {{-- End User Management --}}
 
       {{-- Help & Support --}}
       <li class="menu-item">
@@ -159,6 +165,20 @@
         </a>
       </li>
       {{-- End Help & Support --}}
+
+
+      {{-- Panels --}}
+      {{-- <li class="menu-header small text-uppercase">
+        <span class="menu-header-text">Admin Panel</span>
+      </li>
+
+      <li class="menu-header small text-uppercase">
+        <span class="menu-header-text">League Admin Panel</span>
+      </li>
+
+      <li class="menu-header small text-uppercase">
+        <span class="menu-header-text">Ump/Ref Panel</span>
+      </li> --}}
 
       
     </ul>
