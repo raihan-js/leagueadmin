@@ -134,7 +134,7 @@
         <div class="row">
           <div class="col-lg-12 col-md-12 col-12 mb-4">
             <div class="card">
-              <h5 class="card-header">Weekly Schedule (main now)</h5>
+              <h5 class="card-header">Weekly Schedule Check</h5>
               <div class="table-responsive text-nowrap">
                 <table class="table">
                   <thead>
