@@ -15,6 +15,7 @@ return new class extends Migration
     {
         Schema::create('master_schedules', function (Blueprint $table) {
             $table->id();
+            $table->string('title')->nullable();
             $table->unsignedBigInteger('home_team_id');
             $table->unsignedBigInteger('away_team_id');
             $table->date('date')->nullable();

@@ -19,6 +19,11 @@
                 @csrf
                 @method('PUT')
                 <div class="row">
+                    <div class="mb-3 col-md-12">
+                        <label class="form-label" for="">Title</label>
+                        <input type="text" name="title" class="form-control" id="" placeholder="Schedule title..." required value="{{$edit->title}}">
+                    </div>
+
                     <div class="mb-3 col-md-6">
                     <label class="form-label" for="">Home Team</label>
                     <select name="home_team_id" id="home_team_id" class="form-control" required>
@@ -237,6 +242,7 @@
               <thead>
                 <tr>
                   <th>SN</th>
+                  <th>Title</th>
                   <th>Home Team</th>
                   <th>Away Team</th>
                   <th>Date</th>
@@ -252,6 +258,7 @@
 
                 <tr>
                     <td>{{ $loop -> index + 1 }}</td>
+                    <td>{{ $item->title }}</td>
                     <td><strong>{{ $item->homeTeam->name }}</strong></td>
                     <td>{{ $item->awayTeam->name }}</td>                     
                     <td><span class="badge rounded-pill bg-warning text-dark c-font">{{ $item->date }}</span></td>                     

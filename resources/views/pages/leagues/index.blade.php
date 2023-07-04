@@ -226,7 +226,16 @@
       </div>
       
         @empty
-        <p>Nothing</p>
+        <div class="col-md-6 col-lg-4">
+        <div class="card text-center mb-3">
+          <div class="card-body">
+            <div class="card-title text-center ">
+              <h4>No Leagues to show</h4>
+            </div>
+            <a href="" data-bs-toggle="modal" data-bs-target="#createUser" class="btn rounded-pill btn-icon btn-outline-primary"><i class='bx bx-plus'></i></a>
+          </div>
+        </div>
+      </div>
         @endforelse
     </div>
     {{ $leagues->links() }}

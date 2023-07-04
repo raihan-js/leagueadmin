@@ -29,7 +29,7 @@
                   </div>
                 </div>
                 <span>Total Leagues</span>
-                <h3 class="card-title text-nowrap mb-1">15</h3>
+                <h3 class="card-title text-nowrap mb-1">{{ $total_leagues ?? 0 }}</h3>
               </div>
             </div>
           </div>
@@ -60,7 +60,7 @@
                   </div>
                 </div>
                 <span>Total Teams</span>
-                <h3 class="card-title text-nowrap mb-1">10</h3>
+                <h3 class="card-title text-nowrap mb-1">{{ $total_teams ?? 0 }}</h3>
               </div>
             </div>
           </div>
@@ -91,7 +91,7 @@
                   </div>
                 </div>
                 <span>Total Schedules</span>
-                <h3 class="card-title text-nowrap mb-1">42</h3>
+                <h3 class="card-title text-nowrap mb-1">{{ $total_schedules ?? 0 }}</h3>
               </div>
             </div>
           </div>
@@ -122,7 +122,7 @@
                   </div>
                 </div>
                 <span>Total Users</span>
-                <h3 class="card-title text-nowrap mb-1">5</h3>
+                <h3 class="card-title text-nowrap mb-1">{{ $total_users - 1 ?? 0 }}</h3>
               </div>
             </div>
           </div>
@@ -212,8 +212,7 @@
         </div>
         {{-- End Table row --}}
       
-      
-
+    
        
         
         

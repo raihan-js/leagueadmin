@@ -47,6 +47,7 @@ Route::group([ 'middleware' => 'admin' ], function(){
     Route::get('update-status/{id}', [AdminController::class, 'updateStatus'])->name('update.status');
     // League single show
     Route::get('/leagues/{league}', [LeagueController::class, 'show'])->name('leagues.show');
+
 });
 
 

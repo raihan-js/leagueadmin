@@ -109,7 +109,7 @@
         <ul class="menu-sub">
           <li class="menu-item">
             <a href="{{ route('masterschedules.index') }}" class="menu-link">
-              <div data-i18n="Without menu">Master Schedule</div>
+              <div data-i18n="Without menu">All Master Schedules</div>
             </a>
           </li>
           <li class="menu-item">

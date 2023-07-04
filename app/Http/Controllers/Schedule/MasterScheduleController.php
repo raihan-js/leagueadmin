@@ -11,6 +11,9 @@ use App\Http\Controllers\Controller;
 class MasterScheduleController extends Controller
 {
 
+
+
+
     // Import csv method
     public function import(Request $request)
     {
@@ -170,6 +173,7 @@ class MasterScheduleController extends Controller
     {
         $update_data = MasterSchedule::findOrFail($id);
         $update_data->update([
+            'title'     => $request->title,
             'home_team_id'          => $request->home_team_id,
             'away_team_id'         => $request->away_team_id,
             'date'      => $request->date,
