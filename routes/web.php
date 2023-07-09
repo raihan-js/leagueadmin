@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\PermissionController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\League\LeagueController;
 use App\Http\Controllers\Schedule\MasterScheduleController;
+use App\Http\Controllers\Schedule\WeeklyScheduleController;
 use App\Http\Controllers\Team\TeamController;
 use Illuminate\Support\Facades\Route;
 
@@ -41,6 +42,7 @@ Route::group([ 'middleware' => 'admin' ], function(){
     Route::resource('leagues', LeagueController::class);
     Route::resource('teams', TeamController::class);
     Route::resource('masterschedules', MasterScheduleController::class);
+    Route::resource('weeklyschedules', WeeklyScheduleController::class);
     // Master schedule import 
     Route::post('masterschedules/import', [MasterScheduleController::class, 'import'])->name('masterschedules.import');
     // Status update GET

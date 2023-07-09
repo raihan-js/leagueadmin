@@ -26,4 +26,10 @@ public function awayTeam()
     {
         return $this->belongsTo(League::class);
     }
+
+    public function weeklySchedules()
+    {
+        return $this->belongsToMany(WeeklySchedule::class, 'master_schedule_weekly_schedule')
+        ->withTimestamps();
+    }
 }

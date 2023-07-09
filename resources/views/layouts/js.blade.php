@@ -17,6 +17,9 @@
 <script src="{{ asset('assets/js/dashboards-analytics.js') }}"></script>
 <script src="{{ asset('assets/js/ui-modals.js') }}"></script>
 
+<!-- Popover -->
+<script src="{{ asset('assets/js/ui-popover.js') }}"></script>
+
 <!-- Custom JS -->
 <script src="{{ asset('assets/js/custom/admin.js') }}"></script>
 

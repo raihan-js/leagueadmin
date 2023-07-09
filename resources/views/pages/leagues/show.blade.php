@@ -84,52 +84,20 @@
         <div class="card">
           
           <div class="row">
-            <div class="col-md-3"><h5 class="card-header">{{ $league->title }}</h5></div>
+            <div class="col-md-3">
+              <div class="d-flex">
+                <h5 class="card-header">{{ $league->title }}</h5>
+              </div>
+              
+            </div>
             <div class="col-md-5 pt-3 px-3">@include('validate')</div>
-            <div class="col-md-4">
-              <!--
-                <div class="d-flex flex-row-reverse">
-                    <div class="pt-3 px-3">   
-                      {{-- Create master schedule button --}}
-                      <a  data-bs-toggle="tooltip" data-bs-offset="0,4" data-bs-placement="left" data-bs-html="true" title="" data-bs-original-title="<i class='bx bx-refresh bx-xs' ></i> <span>Refresh Data</span>" class="d-inline px-3" href="{{ route('masterschedules.index')}}"><i class='bx bx-refresh refresh-icon' style="font-size: 24px"></i>this should be removed</a>
-                      <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createUser">Create Master Schedule</button>
-                      <button style="margin-left: 7px" type="button" class="btn btn-icon btn-outline-info" data-bs-toggle="modal" data-bs-target="#importmaster"><i class='bx bx-import'></i></button>
+            <div class="col-md-4 pt-3 px-3">
+              <div class="d-flex flex-row-reverse">
+                <button type="button" class=" btn btn-primary text-nowrap mx-2" data-bs-toggle="popover" data-bs-offset="0,14" data-bs-placement="left" data-bs-html="true" data-bs-content="<p>Type: <span class='badge rounded-pill bg-primary'>{{ $league->type }}</span><br>Start Date: <span class='badge rounded-pill bg-primary'>{{ $league->start_date }}</span><br>Weeks: <span class='badge rounded-pill bg-primary'>{{ $league->weeks }}</span><br>Ump/Ref: <span class='badge rounded-pill bg-primary'>{{ $league->admins()->wherePivot('role', 'primary')->first()->name }}</span><br>Secondary Ump/Ref: <span class='badge rounded-pill bg-primary'>{{ $league->admins()->wherePivot('role', 'secondary')->first()->name }}</span></p> <div class='d-flex justify-content-between'></div>" title="" data-bs-original-title="{{ $league->title }}">
+                  League Details
+                </button>
+              </div>
 
-                      {{-- Import Modal --}}
-                      <div class="modal fade" id="importmaster" tabindex="-1" aria-hidden="true">
-                        <div class="modal-dialog modal-dialog-centered" role="document">
-                          <div class="modal-content">
-                            <div class="modal-header">
-                              <h5 class="modal-title" id="modalCenterTitle">Import Master Schedule csv</h5>
-                              <button
-                                type="button"
-                                class="btn-close"
-                                data-bs-dismiss="modal"
-                                aria-label="Close"
-                              ></button>
-                            </div>
-                            
-                            <div class="modal-body">
-                              
-                              {{-- Modal Input Group --}}
-                                  <form method="POST" action="{{ route('masterschedules.import') }}" enctype="multipart/form-data">
-                                    @csrf
-                                    <div class="row">
-                                        <div class="mb-3 col-md-6">
-                                            <input name="import_file" type="file" class="form-control" id="importmaster" aria-describedby="importmasterschedule" aria-label="Upload">         
-                                        </div>                  
-                                    </div>
-                                  </form>
-                              {{-- End Input Group --}}
-                            </div>                
-                          </div>
-                        </div>
-                      </div>
-                      {{-- End Import Modal --}}
-                      
-
-                    </div>    
-                </div> -->
             </div>
             
             
@@ -197,7 +165,7 @@
                       <tr>
                         <td>
                           <div class="alert alert-primary" role="alert">
-                            No Master Schedules Found
+                            No Schedules Found
                           </div>
                         </td>
                         
