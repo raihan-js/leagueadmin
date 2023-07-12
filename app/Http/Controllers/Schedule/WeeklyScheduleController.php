@@ -72,7 +72,7 @@ class WeeklyScheduleController extends Controller
 
         return view('pages.schedules.weekly.index', [
             'masterSchedules'   => $masterSchedules,
-            'weeklyschedules'   => $weeklySchedules
+            'weeklyschedules'   => $weeklySchedules,
         ]);
     }
 
@@ -99,7 +99,16 @@ class WeeklyScheduleController extends Controller
      */
     public function edit($id)
     {
-        //
+        $weeklySchedule = WeeklySchedule::findOrFail($id);
+        $masterSchedules = MasterSchedule::all();
+        $weeklySchedules = WeeklySchedule::all();
+    
+        return view('pages.schedules.weekly.index', [
+            'weeklySchedule' => $weeklySchedule,
+            'masterSchedules' => $masterSchedules,
+            'type'          => 'edit',
+            'weeklyschedules'   => $weeklySchedules,
+        ]);
     }
 
     /**
@@ -111,7 +120,20 @@ class WeeklyScheduleController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $validatedData = $request->validate([
+            'title' => 'required',
+            'master_schedules' => 'required|array',
+            'master_schedules.*' => 'exists:master_schedules,id',
+        ]);
+    
+        $weeklySchedule = WeeklySchedule::findOrFail($id);
+    
+        $weeklySchedule->title = $validatedData['title'];
+        $weeklySchedule->save();
+    
+        $weeklySchedule->masterSchedules()->sync($validatedData['master_schedules']);
+    
+        return redirect()->route('weeklyschedules.index')->with('success', 'Weekly Schedule updated successfully');
     }
 
     /**

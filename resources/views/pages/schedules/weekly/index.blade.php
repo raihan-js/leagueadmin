@@ -5,7 +5,60 @@
 
 <div class="container-xxl flex-grow-1 container-p-y">
 
-   
+  @if ($type=='edit')
+  <div class="row">
+    <div class="col-lg-6 col-md-6 col-12 mb-4">
+      <div class="card">
+        
+        <div class="row">
+          <div class="col-md-12">
+            <h5 class="card-header">Edit Weekly Schedule</h5>
+
+
+            <form method="POST" action="{{ route('weeklyschedules.update', $weeklySchedule->id) }}" class="update-input">
+              @csrf
+              @method('PUT')
+              <div class="row">
+                <div class="mb-3 col-md-12">
+                <label class="form-label" for="">Week Title</label>
+                <input type="text" name="title" class="form-control" id="" placeholder="League 1" required value="{{$weeklySchedule->title}}">
+                </div>
+                
+                <div class="mb-3 col-md-12">
+                  <label for="master_schedules" class="form-label">Master Schedules</label>
+                  <select id="master_schedules" class="form-control @error('master_schedules') is-invalid @enderror" name="master_schedules[]" multiple required>
+                    @foreach ($masterSchedules as $masterSchedule)
+                      <option value="{{ $masterSchedule->id }}" {{ in_array($masterSchedule->id, $weeklySchedule->masterSchedules->pluck('id')->toArray()) ? 'selected' : '' }}>
+                        {{ $masterSchedule->title }}
+                      </option>
+                    @endforeach
+                  </select>
+        
+                  @error('master_schedules')
+                    <span class="invalid-feedback" role="alert">
+                      <strong>{{ $message }}</strong>
+                    </span>
+                  @enderror
+                </div>
+              
+                
+                
+            </div>
+              <button type="submit" class="btn btn-primary mt-4">Update Weekly Schedule</button>
+            </form>
+
+
+            
+          </div>
+          
+          
+        </div>
+
+      </div>
+    </div>
+  </div>
+      
+  @endif
 
 
     <div class="row">
@@ -47,7 +100,10 @@
                                   <div class="mb-3 col-md-12">
                                       <select id="master_schedules" class="form-control @error('master_schedules') is-invalid @enderror" name="master_schedules[]" multiple required>
                                         @foreach ($masterSchedules as $masterSchedule)
-                                            <option value="{{ $masterSchedule->id }}">{{ $masterSchedule->title }}</option>
+                                        {{-- <option value="{{ $masterSchedule->id }}">
+                                          {{ $masterSchedule->title }} - Home Team: {{ $masterSchedule->home_team_id }} - Away Team: {{ $masterSchedule->away_team_id }} - Date: {{ $masterSchedule->date }} - Time: {{ $masterSchedule->time }} - Location: {{ $masterSchedule->location }} - Sub Location: {{ $masterSchedule->sub_location }}
+                                      </option> --}}
+                                      <option value="{{ $masterSchedule->id }}">{{ $masterSchedule->title }}</option>
                                         @endforeach
                                     </select>
 
