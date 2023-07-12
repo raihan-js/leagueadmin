@@ -84,7 +84,11 @@ class WeeklyScheduleController extends Controller
      */
     public function show($id)
     {
-        //
+        $weeklySchedule = WeeklySchedule::findOrFail($id);
+
+        return view('pages.schedules.weekly.show', [
+            'weeklySchedule' => $weeklySchedule,
+        ]);
     }
 
     /**
@@ -118,6 +122,13 @@ class WeeklyScheduleController extends Controller
      */
     public function destroy($id)
     {
-        //
+         // Find the weekly schedule by its ID
+        $weeklySchedule = WeeklySchedule::findOrFail($id);
+
+        // Delete the weekly schedule
+        $weeklySchedule->delete();
+
+        // Redirect back to the index page with a success message
+        return redirect()->route('weeklyschedules.index')->with('success', 'Weekly schedule deleted successfully');
     }
 }

@@ -134,76 +134,73 @@
         <div class="row">
           <div class="col-lg-12 col-md-12 col-12 mb-4">
             <div class="card">
-              <h5 class="card-header">Weekly Schedule Check</h5>
+              <h5 class="card-header">{{ $latestWeeklySchedule->title ?? 'No weekly schedules created' }}</h5>
               <div class="table-responsive text-nowrap">
                 <table class="table">
                   <thead>
                     <tr>
+                      <th>SN</th>
+                      <th>Home Team</th>
+                      <th>Away Team</th>
                       <th>Date</th>
                       <th>Time</th>
-                      <th>Away Team</th>
-                      <th>Home Team</th>
-                      <th>HB Ump (Shadow)</th>
-                      <th>1B Ump Duty</th>
-                      <th>Field</th>
+                      <th>Location</th>
+                      <th>Sub Location</th>
+                      <th>Created</th>
                       <th>Action</th>
                     </tr>
                   </thead>
-                  <tbody class="table-border-bottom-0">
-                    <tr>
-                      <td><i class="fab fa-angular fa-lg text-danger me-3"></i>12-01-2023</td>
-                      <td>11:00 AM</td>
-                      <td><span class="badge bg-label-primary me-1">Sons Of Pitches</span></td>
-                      <td><span class="badge bg-label-primary me-1">Kick Me, Daddy</span></td>
-                      <td><strong>Nathan Wise</strong></td>
-                      <td><strong>Sassy Bunts</strong></td>
-                      <td>Dirt 1</td>
-                      <td>
-                        <div class="dropdown">
-                          <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown"><i class="bx bx-dots-vertical-rounded"></i></button>
-                          <div class="dropdown-menu">
-                            <a class="dropdown-item" href="#"><i class="bx bx-edit-alt me-1"></i> Edit</a>
-                            <a class="dropdown-item" href="#"><i class="bx bx-trash me-1"></i> Delete</a>
-                          </div>
-                        </div>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td><i class="fab fa-angular fa-lg text-danger me-3"></i>15-01-2023</td>
-                      <td>11:00 AM</td>
-                      <td><span class="badge bg-label-primary me-1">Fresh Kicks</span></td>
-                      <td><span class="badge bg-label-primary me-1">Freeballers</span></td>
-                      <td><strong>Scot Sweazy</strong></td>
-                      <td><strong>Jason Painter</strong></td>
-                      <td>Dirt 2</td>
-                      <td>
-                        <div class="dropdown">
-                          <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown"><i class="bx bx-dots-vertical-rounded"></i></button>
-                          <div class="dropdown-menu">
-                            <a class="dropdown-item" href="#"><i class="bx bx-edit-alt me-1"></i> Edit</a>
-                            <a class="dropdown-item" href="#"><i class="bx bx-trash me-1"></i> Delete</a>
-                          </div>
-                        </div>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td><i class="fab fa-angular fa-lg text-danger me-3"></i>02-02-2023</td>
-                      <td>02:00 PM</td>
-                      <td><span class="badge bg-label-primary me-1">Nancy Boys</span></td>
-                      <td><span class="badge bg-label-primary me-1">Ambush</span></td>
-                      <td><strong>Zac Eggers</strong></td>
-                      <td><strong>Drew Compston</strong></td>
-                      <td>Grass 1</td>
-                      <td>
-                        <div class="dropdown">
-                          <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown"><i class="bx bx-dots-vertical-rounded"></i></button>
-                          <div class="dropdown-menu">
-                            <a class="dropdown-item" href="#"><i class="bx bx-edit-alt me-1"></i> Edit</a>
-                            <a class="dropdown-item" href="#"><i class="bx bx-trash me-1"></i> Delete</a>
-                          </div>
-                        </div>
-                      </td>
-                    </tr>
+                  <tbody>
+                    @if ($latestWeeklySchedule)
+                      @forelse ($latestWeeklySchedule->masterSchedules as $index => $masterSchedule)
+                          <tr>
+                              <td>{{ $index + 1 }}</td>
+                              <td><span class="badge bg-label-primary">{{ $masterSchedule->homeTeam->name }}</span></td>
+                              <td><span class="badge bg-label-primary">{{ $masterSchedule->awayTeam->name }}</span></td>
+                              <td>{{ $masterSchedule->date }}</td>
+                              <td>{{ $masterSchedule->time }}</td>
+                              <td>{{ $masterSchedule->location }}</td>
+                              <td>{{ $masterSchedule->sub_location }}</td>
+                              <td>{{ $masterSchedule->created_at->diffForHumans() }}</td>
+                              <td>
+                                  <div class="dropdown">
+                                      <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
+                                          <i class="bx bx-dots-vertical-rounded"></i>
+                                      </button>
+                                      <div class="dropdown-menu">
+                                          <a class="dropdown-item" href="{{ route('masterschedules.edit', $masterSchedule->id) }}">
+                                              <i class="bx bx-edit"></i> Edit
+                                          </a>
+                                          <form action="{{ route('masterschedules.destroy', $masterSchedule->id) }}" method="POST"
+                                              class="delete-form">
+                                              @csrf
+                                              @method('DELETE')
+                                              <button type="submit" class="dropdown-item" href="#">
+                                                  <i class="bx bx-trash me-1"></i> Delete
+                                              </button>
+                                          </form>
+                                      </div>
+                                  </div>
+                              </td>
+                          </tr>
+                      @empty
+                          <tr>
+                              <td colspan="9">
+                                  <div class="alert alert-primary" role="alert">
+                                      No Schedules Found
+                                  </div>
+                              </td>
+                          </tr>
+                      @endforelse
+                    @else
+                      <tr>
+                          <td colspan="9">
+                              <div class="alert alert-primary" role="alert">
+                                  No Weekly Schedules Created
+                              </div>
+                          </td>
+                      </tr>
+                    @endif
                   </tbody>
                 </table>
               </div>

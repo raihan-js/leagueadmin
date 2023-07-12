@@ -103,7 +103,7 @@
               </div>
             </form>
             </div>
-            <p><strong>Total Schedules:</strong> 14</p>
+            <p><strong>Total Schedules:</strong> <span class="badge rounded-pill bg-primary">{{ $item->masterSchedules->count() }}</span></p>
             <a href="{{ route('weeklyschedules.show', $item->id) }}" class="btn rounded-pill btn-icon btn-outline-primary"><i class='bx bx-right-arrow-alt'></i></a>
           </div>
         </div>
