@@ -19,12 +19,10 @@ class WeeklyScheduleController extends Controller
     public function index()
     {
         $weeklySchedules = WeeklySchedule::latest()->get();
-        // $masterSchedules = MasterSchedule::with('homeTeam', 'awayTeam')->get();
+        $masterSchedules = MasterSchedule::with('homeTeam', 'awayTeam')->get();
         $teams = Team::all();
         $master = MasterSchedule::latest()->get();
         $leagues = League::all();
-
-        $masterSchedules = MasterSchedule::all();
 
         return view('pages.schedules.weekly.index', [
             'master' => $master,

@@ -98,12 +98,18 @@
                                   </div>
 
                                   <div class="mb-3 col-md-12">
-                                      <select id="master_schedules" class="form-control @error('master_schedules') is-invalid @enderror" name="master_schedules[]" multiple required>
+                                      <select id="master_schedules" class="form-control @error('master_schedules') is-invalid @enderror" name="master_schedules[]" multiple required style="overflow-x: auto; white-space: nowrap;">
                                         @foreach ($masterSchedules as $masterSchedule)
-                                        {{-- <option value="{{ $masterSchedule->id }}">
-                                          {{ $masterSchedule->title }} - Home Team: {{ $masterSchedule->home_team_id }} - Away Team: {{ $masterSchedule->away_team_id }} - Date: {{ $masterSchedule->date }} - Time: {{ $masterSchedule->time }} - Location: {{ $masterSchedule->location }} - Sub Location: {{ $masterSchedule->sub_location }}
-                                      </option> --}}
-                                      <option value="{{ $masterSchedule->id }}">{{ $masterSchedule->title }}</option>
+                                        <option value="{{ $masterSchedule->id }}">
+                                          <div class="schedule-info">
+                                            <strong>{{ $masterSchedule->title }}</strong> {{$masterSchedule->title ? ',' : ''}}
+                                            Home Team: {{ $masterSchedule->homeTeam->name }},
+                                            Away Team: {{ $masterSchedule->awayTeam->name }},
+                                            Date & Time: {{ date('F j, Y h:i A', strtotime($masterSchedule->date . ' ' . $masterSchedule->time)) }},
+                                            Location: {{ $masterSchedule->location }},
+                                            Sub Location: {{ $masterSchedule->sub_location }}
+                                          </div>
+                                        </option>
                                         @endforeach
                                     </select>
 
