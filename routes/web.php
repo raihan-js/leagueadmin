@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\AdminPageController;
 use App\Http\Controllers\Admin\PermissionController;
 use App\Http\Controllers\Admin\RoleController;
+use App\Http\Controllers\AvailabilityController;
 use App\Http\Controllers\League\LeagueController;
 use App\Http\Controllers\Schedule\MasterScheduleController;
 use App\Http\Controllers\Schedule\WeeklyScheduleController;
@@ -49,7 +50,8 @@ Route::group([ 'middleware' => 'admin' ], function(){
     Route::get('update-status/{id}', [AdminController::class, 'updateStatus'])->name('update.status');
     // League single show
     Route::get('/leagues/{league}', [LeagueController::class, 'show'])->name('leagues.show');
-
+    Route::get('/available/ump', [AvailabilityController::class, 'ump'])->name('available.ump');
+    Route::get('/available/venue', [AvailabilityController::class, 'venue'])->name('available.venue');
 });
 
 
