@@ -12,7 +12,10 @@ class DatetimeRangePicker extends Component
      * @return void
      */
     public function __construct(
-        public string $dateFilterName
+        public string $dateFilterName,
+        public string $apiToCall,
+        public string $apiToCallVerb,
+        public string $responseViewSlot,
     ) {
     }
 

@@ -26,8 +26,8 @@
 
       $button.text(startDate + ' - ' + endDate);
 
-      $.get('/available/ump', { start: startDate, end: endDate }, function(data) {
-        $('#filtered-view').html(data);
+      $.{{ $apiToCallVerb }}("{{ $apiToCall }}", { start: startDate, end: endDate }, function(data) {
+        $("{{ $responseViewSlot }}").html(data);
       });
     });
   
@@ -35,8 +35,8 @@
       var $button = $(this).closest('div').find('button');
       $button.text('Date');
 
-      $.get('/available/ump', {clear: true}, function(data) {
-        $('#filtered-view').html(data);
+      $.{{ $apiToCallVerb }}("{{ $apiToCall }}", {clear: true}, function(data) {
+        $("{{ $responseViewSlot }}").html(data);
       });
     });
   });

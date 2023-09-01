@@ -13,7 +13,12 @@
               <div class="pt-3 px-3">
                 <div class="row">
                   <div class="mb-3 col-md-4 d-flex">
-                    <x-datetime-range-picker dateFilterName="datefilter" />
+                    <x-datetime-range-picker 
+                      dateFilterName="datefilter" 
+                      apiToCall="/available/ump" 
+                      apiToCallVerb="get"
+                      responseViewSlot="#filtered-view" 
+                    />
                 </div>
               </div>
             </div>
