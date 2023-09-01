@@ -18,6 +18,7 @@
                       apiToCall="/available/ump" 
                       apiToCallVerb="get"
                       responseViewSlot="#filtered-view" 
+                      style=""
                     />
                 </div>
               </div>

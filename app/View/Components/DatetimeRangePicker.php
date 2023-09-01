@@ -16,6 +16,7 @@ class DatetimeRangePicker extends Component
         public string $apiToCall,
         public string $apiToCallVerb,
         public string $responseViewSlot,
+        public string $style,
     ) {
     }
 

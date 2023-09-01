@@ -1,4 +1,4 @@
-<div class="dropdown" name="{{ $dateFilterName }}">
+<div class="dropdown" name="{{ $dateFilterName }}" style="{{ $style }}">
   <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
     Date
   </button>
