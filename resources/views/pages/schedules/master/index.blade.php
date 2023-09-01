@@ -12,6 +12,7 @@
             <div class="row">
               <div class="col-md-12">
                 <h5 class="card-header">Edit Master Schedule</h5>
+                <div class="col-md-12 pt-3 px-3">@include('validate')</div>
                 @include('pages.schedules.master.master-schedule-form')
               </div>
             </div>
@@ -25,7 +26,11 @@
         <div class="card">
           <div class="row">
             <div class="col-md-3"><h5 class="card-header">All Master Schedules</h5></div>
-            <div class="col-md-5 pt-3 px-3">@include('validate')</div>
+            <div class="col-md-5 pt-3 px-3">
+              @if ($type != 'edit')
+                @include('validate')
+              @endif
+            </div>
             <div class="col-md-4">
                 <div class="d-flex flex-row-reverse">
                     <div class="pt-3 px-3">   

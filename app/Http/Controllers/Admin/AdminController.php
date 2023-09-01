@@ -20,10 +20,11 @@ class AdminController extends Controller
     {
         $admin_users = Admin::latest()->get();
         $roles = Role::latest()->get();
+
         return view('pages.user.index', [
             'all_users' => $admin_users,
-            'type'            => '',
-            'all_roles'            => $roles,
+            'type' => '',
+            'all_roles' => $roles,
         ]);
     }
 
@@ -47,35 +48,34 @@ class AdminController extends Controller
     {
         // Fields Validation
         $this->validate($request, [
-            'name'      => 'required',
-            'username'      => 'required|unique:admins',
-            'email'      => 'required|unique:admins',
-            'phone'      => 'required|unique:admins',
-            'role'      => 'required',
+            'name' => 'required',
+            'username' => 'required|unique:admins',
+            'email' => 'required|unique:admins',
+            'phone' => 'required|unique:admins',
+            'role' => 'required',
         ]);
 
         // Password String Creation
         $password_string = str_shuffle('qwertyuiopasdfghjklzxcvbnm1234567890!@#$');
 
         // If password put 0 when creation an auto password will be created, otherwise the input password
-        if($request->password == NULL){
+        if ($request->password == null) {
             $pass = substr($password_string, 10, 10);
-        }else {
+        } else {
             $pass = $request->password;
         }
-        
 
         // Data Store
         $user = Admin::create([
-            'name'          => $request->name,
-            'email'         => $request->email,
-            'username'      => $request->username,
-            'phone'         => $request->phone,
-            'role_id'       => $request->role,
-            'password'      => Hash::make($pass),
+            'name' => $request->name,
+            'email' => $request->email,
+            'username' => $request->username,
+            'phone' => $request->phone,
+            'role_id' => $request->role,
+            'password' => Hash::make($pass),
         ]);
 
-        $user -> notify(new UserAccountInfoNotification([$user['name'], $pass])); //Passed user's name and the password
+        $user->notify(new UserAccountInfoNotification([$user['name'], $pass])); //Passed user's name and the password
 
         return back()->with('success', 'User created successfully');
     }
@@ -102,11 +102,12 @@ class AdminController extends Controller
         $roles = Role::latest()->get();
         $all_users = Admin::latest()->get();
         $per = Admin::findOrFail($id);
+
         return view('pages.user.index', [
-            'edit'            => $per,
+            'edit' => $per,
             'all_users' => $all_users,
-            'type'            => 'edit',
-            'all_roles'            => $roles,
+            'type' => 'edit',
+            'all_roles' => $roles,
         ]);
     }
 
@@ -121,13 +122,14 @@ class AdminController extends Controller
     {
         $update_data = Admin::findOrFail($id);
         $update_data->update([
-            'name'      => $request->name,
-            'email'      => $request->email,
-            'username'      => $request->username,
-            'phone'      => $request->phone,
-            'role_id'    => $request->role,
-            'password'      => Hash::make($request->password),
+            'name' => $request->name,
+            'email' => $request->email,
+            'username' => $request->username,
+            'phone' => $request->phone,
+            'role_id' => $request->role,
+            'password' => Hash::make($request->password),
         ]);
+
         return redirect()->route('admins.index')->with('success', 'User updated successfully');
     }
 
@@ -141,24 +143,24 @@ class AdminController extends Controller
     {
         $delete = Admin::findOrFail($id);
         $delete->delete();
+
         return back()->with('success', 'User deleted successfully');
     }
 
-
-    public function updateStatus($id){
+    public function updateStatus($id)
+    {
         $data = Admin::findOrFail($id);
 
-        if($data ->status){
+        if ($data->status) {
             $data->update([
-                'status'    => false,
+                'status' => false,
             ]);
-        }else{
+        } else {
             $data->update([
-                'status'    => true,
+                'status' => true,
             ]);
         }
 
         return back()->with('success', 'Status updated successfully');
     }
-    
 }

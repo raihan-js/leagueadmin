@@ -2,13 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Models\Team;
 use App\Models\League;
 use App\Models\MasterSchedule;
-use App\Http\Controllers\Controller;
+use App\Models\Team;
 use Carbon\Carbon;
-
+use Illuminate\Http\Request;
 
 class AvailabilityController extends Controller
 {
@@ -17,22 +15,22 @@ class AvailabilityController extends Controller
         $startDate = $request->query('start');
         $endDate = $request->query('end');
         $clear = $request->query('clear');
-    
+
         $masterSchedules = MasterSchedule::with('homeTeam', 'awayTeam');
-    
+
         if (isset($startDate)) {
             $startDate = Carbon::createFromFormat('m/d/Y', $startDate);
             $endDate = Carbon::createFromFormat('m/d/Y', $endDate);
-    
+
             $masterSchedules->whereDate('date', '>=', $startDate)
                             ->whereDate('date', '<=', $endDate);
         }
-    
+
         $masterSchedules = $masterSchedules->get();
         $teams = Team::all();
         $master = MasterSchedule::latest()->get();
         $leagues = League::all();
-    
+
         if (isset($startDate) || isset($clear)) {
             return view('pages.availability.ump.table', [
                 'startDate' => $startDate,
@@ -44,7 +42,7 @@ class AvailabilityController extends Controller
                 'leagues' => $leagues,
             ]);
         }
-        
+
         return view('pages.availability.ump.index', [
             'startDate' => $startDate,
             'endDate' => $endDate,
@@ -55,6 +53,7 @@ class AvailabilityController extends Controller
             'leagues' => $leagues,
         ]);
     }
+
     public function venue()
     {
         return view('pages.availability.venue.index');

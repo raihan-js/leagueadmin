@@ -62,7 +62,7 @@
               <tr>
                 <td>
                   <div class="alert alert-primary" role="alert">
-                    No Master Schedules Found
+                    No Ump/Ref Available
                   </div>
                 </td>
                 

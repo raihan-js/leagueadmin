@@ -16,9 +16,10 @@ class TeamController extends Controller
     public function index()
     {
         $all_teams = Team::latest()->get();
+
         return view('pages.teams.index', [
             'all_teams' => $all_teams,
-            'type'            => '',
+            'type' => '',
         ]);
     }
 
@@ -42,18 +43,18 @@ class TeamController extends Controller
     {
         // Fields Validation
         $this->validate($request, [
-            'name'      => 'required',
-            'sport'      => 'required',
-            'captain'      => 'required',
-            'division'      => 'required',
+            'name' => 'required',
+            'sport' => 'required',
+            'captain' => 'required',
+            'division' => 'required',
         ]);
 
         // Data Store
         Team::create([
-            'name'          => $request->name,
-            'sport'         => $request->sport,
-            'captain'      => $request->captain,
-            'division'         => $request->division,
+            'name' => $request->name,
+            'sport' => $request->sport,
+            'captain' => $request->captain,
+            'division' => $request->division,
         ]);
 
         return back()->with('success', 'Team created successfully');
@@ -80,10 +81,11 @@ class TeamController extends Controller
     {
         $all_teams = Team::latest()->get();
         $per = Team::findOrFail($id);
+
         return view('pages.teams.index', [
-            'edit'            => $per,
+            'edit' => $per,
             'all_teams' => $all_teams,
-            'type'            => 'edit',
+            'type' => 'edit',
         ]);
     }
 
@@ -98,11 +100,12 @@ class TeamController extends Controller
     {
         $update_data = Team::findOrFail($id);
         $update_data->update([
-            'name'          => $request->name,
-            'sport'         => $request->sport,
-            'captain'      => $request->captain,
-            'division'         => $request->division,
+            'name' => $request->name,
+            'sport' => $request->sport,
+            'captain' => $request->captain,
+            'division' => $request->division,
         ]);
+
         return redirect()->route('teams.index')->with('success', 'Team updated successfully');
     }
 
@@ -116,6 +119,7 @@ class TeamController extends Controller
     {
         $delete = Team::findOrFail($id);
         $delete->delete();
+
         return back()->with('success', 'Team deleted successfully');
     }
 }

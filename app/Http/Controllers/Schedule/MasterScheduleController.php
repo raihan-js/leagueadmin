@@ -2,18 +2,15 @@
 
 namespace App\Http\Controllers\Schedule;
 
-use App\Models\Team;
-use App\Models\League;
-use Illuminate\Http\Request;
-use App\Models\MasterSchedule;
 use App\Http\Controllers\Controller;
+use App\Models\Admin;
+use App\Models\League;
+use App\Models\MasterSchedule;
+use App\Models\Team;
+use Illuminate\Http\Request;
 
 class MasterScheduleController extends Controller
 {
-
-
-
-
     // Import csv method
     public function import(Request $request)
     {
@@ -33,17 +30,16 @@ class MasterScheduleController extends Controller
 
         // Loop through each row in the CSV file
         while (($data = fgetcsv($handle, 1000, ',')) !== false) {
-
             // Check if home team already exists in the database
             $homeTeam = Team::where('name', $data[0])->first();
-            if (!$homeTeam) {
+            if (! $homeTeam) {
                 // Create new home team object if it does not exist
                 $homeTeam = Team::create(['name' => $data[0]]);
             }
 
             // Check if away team already exists in the database
             $awayTeam = Team::where('name', $data[1])->first();
-            if (!$awayTeam) {
+            if (! $awayTeam) {
                 // Create new away team object if it does not exist
                 $awayTeam = Team::create(['name' => $data[1]]);
             }
@@ -65,7 +61,6 @@ class MasterScheduleController extends Controller
         return back()->with('success', 'Master Schedule imported successfully');
     }
 
-
     /**
      * Display a listing of the resource.
      *
@@ -77,6 +72,7 @@ class MasterScheduleController extends Controller
         $teams = Team::all();
         $master = MasterSchedule::latest()->get();
         $leagues = League::all(); // Add this line to load the leagues
+
         return view('pages.schedules.master.index', [
             'master' => $master,
             'type' => '',
@@ -106,23 +102,23 @@ class MasterScheduleController extends Controller
     {
         // Fields Validation
         $this->validate($request, [
-            'home_team_id'      => 'required',
-            'away_team_id'      => 'required',
-            'date'      => 'required',
-            'time'      => 'required',
-            'location'      => 'required',
-            'sub_location'      => 'required',
+            'home_team_id' => 'required',
+            'away_team_id' => 'required',
+            'date' => 'required',
+            'time' => 'required',
+            'location' => 'required',
+            'sub_location' => 'required',
         ]);
 
         // Data Store
         MasterSchedule::create([
-            'league_id'         => $request->league_id,
-            'home_team_id'     => $request->home_team_id,
-            'away_team_id'     => $request->away_team_id,
-            'date'      => $request->date,
-            'time'         => $request->time,
-            'location'         => $request->location,
-            'sub_location'         => $request->sub_location,
+            'league_id' => $request->league_id,
+            'home_team_id' => $request->home_team_id,
+            'away_team_id' => $request->away_team_id,
+            'date' => $request->date,
+            'time' => $request->time,
+            'location' => $request->location,
+            'sub_location' => $request->sub_location,
         ]);
 
         return back()->with('success', 'Master Schedule created successfully');
@@ -147,19 +143,30 @@ class MasterScheduleController extends Controller
      */
     public function edit($id)
     {
-    $masterSchedule = MasterSchedule::with('homeTeam', 'awayTeam')->findOrFail($id);
-    $teams = Team::all();
-    $all_masters = MasterSchedule::latest()->get();
-    $per = MasterSchedule::findOrFail($id);
-    $leagues = League::all(); // Add this line to load the leagues
-    return view('pages.schedules.master.index', [
-        'edit' => $per,
-        'master' => $all_masters,
-        'type' => 'edit',
-        'teams' => $teams,
-        'masterSchedule' => $masterSchedule,
-        'leagues' => $leagues, // Pass the leagues to the view
-    ]);
+        $masterSchedule = MasterSchedule::with('homeTeam', 'awayTeam')->findOrFail($id);
+        $teams = Team::all();
+        $all_masters = MasterSchedule::latest()->get();
+        $per = MasterSchedule::findOrFail($id);
+        $leagues = League::all();
+        $admins = Admin::select('admins.*')
+            ->join('roles', 'admins.role_id', '=', 'roles.id')
+            ->where('roles.name', 'ump/ref')
+            ->get();
+
+        $primaryReferees = $per->referees()->where('is_primary', true)->pluck('referee_id')->toArray();
+        $secondaryReferees = $per->referees()->where('is_primary', false)->pluck('referee_id')->toArray();
+
+        return view('pages.schedules.master.index', [
+            'edit' => $per,
+            'master' => $all_masters,
+            'type' => 'edit',
+            'teams' => $teams,
+            'masterSchedule' => $masterSchedule,
+            'leagues' => $leagues,
+            'admins' => $admins,
+            'primaryReferees' => $primaryReferees,
+            'secondaryReferees' => $secondaryReferees,
+        ]);
     }
 
     /**
@@ -171,16 +178,48 @@ class MasterScheduleController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $rules = [
+            'primary_admins' => [
+                'array',
+                function ($attribute, $value, $fail) use ($request) {
+                    $secondaryAdmins = $request->input('secondary_admins', []);
+
+                    $overlappingAdmins = array_intersect($value, $secondaryAdmins);
+        
+                    if (!empty($overlappingAdmins)) {
+                        $fail("Referee(s) cannot be selected as both primary and secondary.");
+                    }
+                },
+            ],
+        ];
+        
+        $this->validate($request, $rules);
+
         $update_data = MasterSchedule::findOrFail($id);
         $update_data->update([
-            'title'     => $request->title,
-            'home_team_id'          => $request->home_team_id,
-            'away_team_id'         => $request->away_team_id,
-            'date'      => $request->date,
-            'time'         => $request->time,
-            'location'         => $request->location,
-            'sub_location'         => $request->sub_location,
+            'title' => $request->title,
+            'home_team_id' => $request->home_team_id,
+            'away_team_id' => $request->away_team_id,
+            'date' => $request->date,
+            'time' => $request->time,
+            'location' => $request->location,
+            'sub_location' => $request->sub_location,
         ]);
+
+        if ($request->has('primary_admins')) {
+            $update_data->referees()->wherePivot('is_primary', true)->detach();
+            foreach ($request->primary_admins as $adminId) {
+                $update_data->referees()->attach($adminId, ['is_primary' => true]);
+            }
+        }
+        
+        if ($request->has('secondary_admins')) {
+            $update_data->referees()->wherePivot('is_primary', false)->detach();
+            foreach ($request->secondary_admins as $adminId) {
+                $update_data->referees()->attach($adminId, ['is_primary' => false]);
+            }
+        }        
+
         return redirect()->route('masterschedules.index')->with('success', 'Updated successfully');
     }
 
@@ -194,6 +233,7 @@ class MasterScheduleController extends Controller
     {
         $delete = MasterSchedule::findOrFail($id);
         $delete->delete();
+
         return back()->with('success', 'Deleted successfully');
     }
 }

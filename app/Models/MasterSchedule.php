@@ -32,4 +32,11 @@ class MasterSchedule extends Model
         return $this->belongsToMany(WeeklySchedule::class, 'master_schedule_weekly_schedule')
         ->withTimestamps();
     }
+
+    public function referees()
+    {
+        return $this->belongsToMany(Admin::class, 'master_schedule_referee', 'master_schedule_id', 'referee_id')
+            ->withPivot('is_primary')
+            ->withTimestamps();
+    }
 }

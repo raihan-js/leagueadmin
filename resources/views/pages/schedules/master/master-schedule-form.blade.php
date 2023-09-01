@@ -45,8 +45,38 @@
       <div class="mb-3 col-md-6">
         <label class="form-label" for="">Sub Location</label>
         <input type="text" name="sub_location" class="form-control" id="" placeholder="A, B, C" required value="{{$edit->sub_location}}">
-    </div>
-        
+      </div>
+
+      <div class="mb-3 col-md-6">
+        <label class="form-label" for="">Primary Ump/Ref</label>
+        <select name="primary_admins[]" id="primary_admins" class="form-select" multiple>
+          <option value="">Select Referee</option>
+          @foreach($admins as $admin)
+              @if ($admin->email !== 'admin@leagueadmin.net')
+                  <option value="{{ $admin->id }}" {{ in_array($admin->id, $primaryReferees) ? 'selected' : '' }}>
+                      {{ $admin->name }}
+                  </option>
+              @endif
+          @endforeach
+      
+        </select>
+      </div>
+    
+      <div class="mb-3 col-md-6">
+        <label class="form-label" for="">Secondary Ump/Ref</label>
+        <select name="secondary_admins[]" id="secondary_admins" class="form-select" multiple>
+          <option value="">Select Referee</option>
+          @foreach($admins as $admin)
+              @if ($admin->email !== 'admin@leagueadmin.net')
+                  <option value="{{ $admin->id }}" {{ in_array($admin->id, $secondaryReferees) ? 'selected' : '' }}>
+                      {{ $admin->name }}
+                  </option>
+              @endif
+          @endforeach
+      
+        </select>
+      </div>
+    
         
     </div>
     <button type="submit" class="btn btn-primary mt-4">Update Master Schedule</button>
