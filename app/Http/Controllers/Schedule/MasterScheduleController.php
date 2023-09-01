@@ -70,8 +70,13 @@ class MasterScheduleController extends Controller
     {
         $masterSchedules = MasterSchedule::with('homeTeam', 'awayTeam')->get();
         $teams = Team::all();
-        $master = MasterSchedule::latest()->get();
+        $master = MasterSchedule::with('referees')->latest()->get();
         $leagues = League::all(); // Add this line to load the leagues
+
+        $admins = Admin::select('admins.*')
+            ->join('roles', 'admins.role_id', '=', 'roles.id')
+            ->where('roles.name', 'ump/ref')
+            ->get();
 
         return view('pages.schedules.master.index', [
             'master' => $master,
@@ -79,6 +84,7 @@ class MasterScheduleController extends Controller
             'teams' => $teams,
             'masterSchedule' => $masterSchedules,
             'leagues' => $leagues, // Pass the leagues to the view
+            'admins' => $admins,
         ]);
     }
 
@@ -100,8 +106,26 @@ class MasterScheduleController extends Controller
      */
     public function store(Request $request)
     {
+        $rules = [
+            'primary_admins' => [
+                'array',
+                function ($attribute, $value, $fail) use ($request) {
+                    $secondaryAdmins = $request->input('secondary_admins', []);
+
+                    $overlappingAdmins = array_intersect($value, $secondaryAdmins);
+
+                    if (! empty($overlappingAdmins)) {
+                        $fail('Referee(s) cannot be selected as both primary and secondary.');
+                    }
+                },
+            ],
+        ];
+
+        $this->validate($request, $rules);
+
         // Fields Validation
         $this->validate($request, [
+            'title' => 'required',
             'home_team_id' => 'required',
             'away_team_id' => 'required',
             'date' => 'required',
@@ -111,7 +135,8 @@ class MasterScheduleController extends Controller
         ]);
 
         // Data Store
-        MasterSchedule::create([
+        $update_data = MasterSchedule::create([
+            'title' => $request->title,
             'league_id' => $request->league_id,
             'home_team_id' => $request->home_team_id,
             'away_team_id' => $request->away_team_id,
@@ -120,6 +145,20 @@ class MasterScheduleController extends Controller
             'location' => $request->location,
             'sub_location' => $request->sub_location,
         ]);
+
+        if ($request->has('primary_admins')) {
+            $update_data->referees()->wherePivot('is_primary', true)->detach();
+            foreach ($request->primary_admins as $adminId) {
+                $update_data->referees()->attach($adminId, ['is_primary' => true]);
+            }
+        }
+
+        if ($request->has('secondary_admins')) {
+            $update_data->referees()->wherePivot('is_primary', false)->detach();
+            foreach ($request->secondary_admins as $adminId) {
+                $update_data->referees()->attach($adminId, ['is_primary' => false]);
+            }
+        }
 
         return back()->with('success', 'Master Schedule created successfully');
     }
@@ -132,7 +171,15 @@ class MasterScheduleController extends Controller
      */
     public function show($id)
     {
-        //
+        $masterSchedule = MasterSchedule::findOrFail($id);
+        $primaryReferees = $masterSchedule->referees()->where('is_primary', true)->get();
+        $secondaryReferees = $masterSchedule->referees()->where('is_primary', false)->get();
+
+        return view('pages.schedules.master.referee-info', [
+            'masterSchedule' => $masterSchedule,
+            'primaryReferees' => $primaryReferees,
+            'secondaryReferees' => $secondaryReferees,
+        ]);
     }
 
     /**
@@ -185,14 +232,14 @@ class MasterScheduleController extends Controller
                     $secondaryAdmins = $request->input('secondary_admins', []);
 
                     $overlappingAdmins = array_intersect($value, $secondaryAdmins);
-        
-                    if (!empty($overlappingAdmins)) {
-                        $fail("Referee(s) cannot be selected as both primary and secondary.");
+
+                    if (! empty($overlappingAdmins)) {
+                        $fail('Referee(s) cannot be selected as both primary and secondary.');
                     }
                 },
             ],
         ];
-        
+
         $this->validate($request, $rules);
 
         $update_data = MasterSchedule::findOrFail($id);
@@ -212,13 +259,13 @@ class MasterScheduleController extends Controller
                 $update_data->referees()->attach($adminId, ['is_primary' => true]);
             }
         }
-        
+
         if ($request->has('secondary_admins')) {
             $update_data->referees()->wherePivot('is_primary', false)->detach();
             foreach ($request->secondary_admins as $adminId) {
                 $update_data->referees()->attach($adminId, ['is_primary' => false]);
             }
-        }        
+        }
 
         return redirect()->route('masterschedules.index')->with('success', 'Updated successfully');
     }

@@ -26,5 +26,5 @@ class Admin extends User
         return $this->belongsToMany(MasterSchedule::class, 'master_schedule_referee', 'referee_id', 'master_schedule_id')
             ->withPivot('is_primary')
             ->withTimestamps();
-    }       
+    }
 }

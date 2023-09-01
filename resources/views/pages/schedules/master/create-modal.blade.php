@@ -18,6 +18,10 @@
               <form method="POST" action="{{ route('masterschedules.store') }}">
                 @csrf
                 <div class="row">
+                  <div class="mb-3 col-md-12">
+                      <label class="form-label" for="">Title</label>
+                      <input type="text" name="title" class="form-control" id="" placeholder="Schedule title..." required value="">
+                  </div>
                     <div class="col mb-3">
                     <label for="league_id" class="form-label">Select League:</label>
                       <select class="form-select" name="league_id" id="league_id">
@@ -67,7 +71,36 @@
                       <label class="form-label" for="">Sub Location</label>
                       <input type="text" name="sub_location" class="form-control" id="" placeholder="A, B, C" required>
                   </div>
-                    
+
+                  <div class="mb-3 col-md-6">
+                    <label class="form-label" for="">Primary Ump/Ref</label>
+                    <select name="primary_admins[]" id="primary_admins" class="form-select" multiple>
+                      <option value="">Select Referee</option>
+                      @foreach($admins as $admin)
+                          @if ($admin->email !== 'admin@leagueadmin.net')
+                              <option value="{{ $admin->id }}">
+                                  {{ $admin->name }}
+                              </option>
+                          @endif
+                      @endforeach
+                  
+                    </select>
+                  </div>
+                
+                  <div class="mb-3 col-md-6">
+                    <label class="form-label" for="">Secondary Ump/Ref</label>
+                    <select name="secondary_admins[]" id="secondary_admins" class="form-select" multiple>
+                      <option value="">Select Referee</option>
+                      @foreach($admins as $admin)
+                          @if ($admin->email !== 'admin@leagueadmin.net')
+                              <option value="{{ $admin->id }}">
+                                  {{ $admin->name }}
+                              </option>
+                          @endif
+                      @endforeach
+                  
+                    </select>
+                  </div>
                     
                 </div>
                 <button type="submit" class="btn btn-primary">Create</button>
