@@ -28,7 +28,7 @@
                   @forelse (json_decode($permissions) as $item)
                   <div class="form-check">
                       <input 
-                      @if (in_array($item->name, json_decode($edit->permissions)))
+                      @if ($edit->permissions != "null" && in_array($item->name, json_decode($edit->permissions)))
                           checked
                       @endif 
                       name="permissions[]" class="form-check-input" type="checkbox" value="{{ $item->name }}" id="defaultCheck3">
@@ -144,15 +144,17 @@
                   <td><strong>{{ $per->name }}</strong></td>
                   <td>{{ $per->slug }}</td>   
                   <td>
-                    @forelse (json_decode($per ->permissions) as $item)
-                    
-                    <span class="badge bg-label-primary me-1">
-                        {{ $item }}
-                    </span>
+                    @if ($per->permissions != "null")
+                      @forelse (json_decode($per ->permissions) as $item)
+                      
+                      <span class="badge bg-label-primary me-1">
+                          {{ $item }}
+                      </span>
 
-                    @empty  
-                    <span class="badge bg-label-primary me-1">No Permission Added</span>
-                    @endforelse
+                        @empty  
+                        <span class="badge bg-label-primary me-1">No Permission Added</span>
+                        @endforelse
+                    @endif
                     
                   </td>
                   <td>{{ $per->created_at->diffForHumans() }}</td>

@@ -19,10 +19,11 @@ class RoleController extends Controller
     {
         $roles = Role::latest()->get();
         $permissions = Permission::latest()->get();
+
         return view('pages.user.role.index', [
             'all_roles' => $roles,
-            'type'            => '',
-            'permissions'     => $permissions,
+            'type' => '',
+            'permissions' => $permissions,
         ]);
     }
 
@@ -46,13 +47,13 @@ class RoleController extends Controller
     {
         // Fields Validation
         $this->validate($request, [
-            'name'      => 'required|unique:roles',
+            'name' => 'required|unique:roles',
         ]);
 
         // Data Store
         Role::create([
-            'name'      => $request->name,
-            'slug'      => Str::slug($request->name),
+            'name' => $request->name,
+            'slug' => Str::slug($request->name),
             'permissions' => json_encode($request->permissions),
         ]);
 
@@ -81,11 +82,12 @@ class RoleController extends Controller
         $roles = Role::latest()->get();
         $permissions = Permission::latest()->get();
         $per = Role::findOrFail($id);
+
         return view('pages.user.role.index', [
-            'edit'            => $per,
-            'all_roles'       => $roles,
-            'type'            => 'edit',
-            'permissions'     => $permissions,
+            'edit' => $per,
+            'all_roles' => $roles,
+            'type' => 'edit',
+            'permissions' => $permissions,
         ]);
     }
 
@@ -100,12 +102,12 @@ class RoleController extends Controller
     {
         $update_data = Role::findOrFail($id);
         $update_data->update([
-            'name'      => $request->name,
-            'slug'      => Str::slug($request->name),
+            'name' => $request->name,
+            'slug' => Str::slug($request->name),
             'permissions' => json_encode($request->permissions),
         ]);
+
         return redirect()->route('roles.index')->with('success', 'Role updated successfully');
-        
     }
 
     /**
@@ -118,6 +120,7 @@ class RoleController extends Controller
     {
         $delete = Role::findOrFail($id);
         $delete->delete();
+
         return back()->with('success', 'Role deleted successfully');
     }
 }

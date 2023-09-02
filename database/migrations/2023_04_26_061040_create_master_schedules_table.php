@@ -26,7 +26,7 @@ return new class extends Migration
 
             // Define foreign key constraints
             // $table->foreign('league_id')->references('id')->on('leagues')->onDelete('cascade');
-            
+
             $table->foreign('home_team_id')->references('id')->on('teams')->onDelete('cascade');
             $table->foreign('away_team_id')->references('id')->on('teams')->onDelete('cascade');
         });

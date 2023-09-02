@@ -2,18 +2,17 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Models\Team;
+use App\Http\Controllers\Controller;
 use App\Models\Admin;
 use App\Models\League;
-use Illuminate\Http\Request;
 use App\Models\MasterSchedule;
+use App\Models\Team;
 use App\Models\WeeklySchedule;
-use App\Http\Controllers\Controller;
 
 class AdminPageController extends Controller
 {
-    function showAdminDashboard(){
-
+    public function showAdminDashboard()
+    {
         // Total data count and push to dashboard
         $totalleagues = League::count();
         $totalschedules = MasterSchedule::count();
@@ -27,23 +26,25 @@ class AdminPageController extends Controller
 
         return view('pages.dashboard', [
             'total_leagues' => $totalleagues,
-            'total_schedules'   => $totalschedules,
-            'total_teams'       => $totalteams,
-            'total_users'       => $totalusers,
-            'latestWeeklySchedule'        => $latestWeek,
+            'total_schedules' => $totalschedules,
+            'total_teams' => $totalteams,
+            'total_users' => $totalusers,
+            'latestWeeklySchedule' => $latestWeek,
         ]);
     }
 
-    function showAdminAccount(){
+    public function showAdminAccount()
+    {
         return view('account.settings');
     }
 
-    function showAdminNotifications(){
+    public function showAdminNotifications()
+    {
         return view('account.notifications');
     }
 
-    function showAdminConnections(){
+    public function showAdminConnections()
+    {
         return view('account.connections');
     }
-    
 }

@@ -136,10 +136,23 @@
       {{-- Availability --}}
       {{-- @if( in_array( 'Availability', json_decode( Auth::guard('admin')->user()->role->permissions ) ) ) --}}
       <li class="menu-item">
-        <a href="#" class="menu-link">
-          <i class="menu-icon tf-icons bx bx-book-content"></i>
-          <div data-i18n="Basic">Availability</div>
+        <a href="javascript:void(0);" class="menu-link menu-toggle">
+          <i class="menu-icon tf-icons bx bx-layout"></i>
+          <div data-i18n="Layouts">Availability</div>
         </a>
+
+        <ul class="menu-sub">
+          <li class="menu-item">
+            <a href="{{ route('available.ump') }}" class="menu-link">
+              <div data-i18n="Without menu">Ump/Ref</div>
+            </a>
+          </li>
+          <li class="menu-item">
+            <a href="{{ route('available.venue') }}" class="menu-link">
+              <div data-i18n="Without navbar">Venue</div>
+            </a>
+          </li>
+        </ul>
       </li>
       {{-- @endif --}}
       {{-- End Availability --}}
