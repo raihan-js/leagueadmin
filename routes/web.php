@@ -47,6 +47,8 @@ Route::group(['middleware' => 'admin'], function () {
     Route::get('update-status/{id}', [AdminController::class, 'updateStatus'])->name('update.status')->middleware('check.role:Super Admin');
     // League single show
     Route::get('/leagues/{league}', [LeagueController::class, 'show'])->name('leagues.show');
+    Route::get('/available/ump', [AvailabilityController::class, 'ump'])->name('available.ump');
+    Route::get('/available/venue', [AvailabilityController::class, 'venue'])->name('available.venue');
 
 });
 
