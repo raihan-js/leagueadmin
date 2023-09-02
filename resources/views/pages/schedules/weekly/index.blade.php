@@ -29,7 +29,12 @@
                   <select id="master_schedules" class="form-control @error('master_schedules') is-invalid @enderror" name="master_schedules[]" multiple required>
                     @foreach ($masterSchedules as $masterSchedule)
                       <option value="{{ $masterSchedule->id }}" {{ in_array($masterSchedule->id, $weeklySchedule->masterSchedules->pluck('id')->toArray()) ? 'selected' : '' }}>
-                        {{ $masterSchedule->title }}
+                        {{ $masterSchedule->title . ($masterSchedule->title ? ',' : '') }}
+                        Home Team: {{ $masterSchedule->homeTeam->name }},
+                        Away Team: {{ $masterSchedule->awayTeam->name }},
+                        Date & Time: {{ date('F j, Y h:i A', strtotime($masterSchedule->date . ' ' . $masterSchedule->time)) }},
+                        Location: {{ $masterSchedule->location }},
+                        Sub Location: {{ $masterSchedule->sub_location }}
                       </option>
                     @endforeach
                   </select>
@@ -102,7 +107,7 @@
                                         @foreach ($masterSchedules as $masterSchedule)
                                         <option value="{{ $masterSchedule->id }}">
                                           <div class="schedule-info">
-                                            <strong>{{ $masterSchedule->title }}</strong> {{$masterSchedule->title ? ',' : ''}}
+                                            {{ $masterSchedule->title . ($masterSchedule->title ? ',' : '') }}
                                             Home Team: {{ $masterSchedule->homeTeam->name }},
                                             Away Team: {{ $masterSchedule->awayTeam->name }},
                                             Date & Time: {{ date('F j, Y h:i A', strtotime($masterSchedule->date . ' ' . $masterSchedule->time)) }},

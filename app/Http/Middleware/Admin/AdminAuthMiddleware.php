@@ -17,11 +17,10 @@ class AdminAuthMiddleware
      */
     public function handle(Request $request, Closure $next)
     {
-        if(Auth::guard('admin') -> check()){
+        if (Auth::guard('admin')->check()) {
             return $next($request);
         }
 
-        return redirect() -> route('admin.login');
-        
+        return redirect()->route('admin.login');
     }
 }

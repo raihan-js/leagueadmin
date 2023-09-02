@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers\League;
 
-use App\Models\Team;
+use App\Http\Controllers\Controller;
 use App\Models\Admin;
 use App\Models\League;
-use Illuminate\Http\Request;
 use App\Models\MasterSchedule;
-use App\Http\Controllers\Controller;
+use App\Models\Team;
+use Illuminate\Http\Request;
 
 class LeagueController extends Controller
 {
@@ -27,11 +27,12 @@ class LeagueController extends Controller
             ->get();
 
         $all_leagues = League::latest()->get();
+
         return view('pages.leagues.index', [
             'all_leagues' => $all_leagues,
-            'type'            => '',
-            'admins'          => $admins,
-            'leagues'         => $leagues,
+            'type' => '',
+            'admins' => $admins,
+            'leagues' => $leagues,
         ]);
     }
 
@@ -55,23 +56,23 @@ class LeagueController extends Controller
     {
         // Fields Validation
         $validatedData = $request->validate([
-            'title'      => 'required',
-            'type'      => 'required',
-            'start_date'      => 'required',
-            'weeks'      => 'required',
+            'title' => 'required',
+            'type' => 'required',
+            'start_date' => 'required',
+            'weeks' => 'required',
             'primary_admin' => 'required|exists:admins,id',
             'secondary_admin' => 'required|exists:admins,id',
         ]);
 
         // Data Store
         $league = League::create([
-            'title'          => $request->title,
-            'type'         => $request->type,
-            'start_date'      => $request->start_date,
-            'weeks'         => $request->weeks,
+            'title' => $request->title,
+            'type' => $request->type,
+            'start_date' => $request->start_date,
+            'weeks' => $request->weeks,
         ]);
 
-         // Attach the primary admin
+        // Attach the primary admin
         $league->admins()->attach($validatedData['primary_admin'], ['role' => 'primary']);
 
         // Attach the secondary admin
@@ -92,12 +93,13 @@ class LeagueController extends Controller
         $teams = Team::all();
         $master = MasterSchedule::latest()->get();
         $league = League::with('admins', 'masterSchedules')->findOrFail($id);
+
         return view('pages.leagues.show', [
             'league' => $league,
             'master' => $master,
-            'type'            => '',
-            'teams'     => $teams,
-            'masterSchedule'    => $masterSchedules
+            'type' => '',
+            'teams' => $teams,
+            'masterSchedule' => $masterSchedules,
         ]);
     }
 
@@ -113,12 +115,13 @@ class LeagueController extends Controller
         $admins = Admin::latest()->get();
         $all_leagues = League::latest()->get();
         $per = League::findOrFail($id);
+
         return view('pages.leagues.index', [
-            'type'            => 'edit',
-            'edit'            => $per,
+            'type' => 'edit',
+            'edit' => $per,
             'all_leagues' => $all_leagues,
-            'leagues'       => $leagues,
-            'admins'        => $admins,
+            'leagues' => $leagues,
+            'admins' => $admins,
         ]);
     }
 
@@ -138,17 +141,17 @@ class LeagueController extends Controller
             'start_date' => $request->start_date,
             'weeks' => $request->weeks,
         ]);
-    
+
         $primary_admin = $request->input('primary_admin');
         $secondary_admin = $request->input('secondary_admin');
-    
+
         $update_data->admins()->detach();
-    
+
         $update_data->admins()->attach([
             $primary_admin => ['role' => 'primary'],
             $secondary_admin => ['role' => 'secondary'],
         ]);
-    
+
         return redirect()->route('leagues.index')->with('success', 'League updated successfully');
     }
 
@@ -162,6 +165,7 @@ class LeagueController extends Controller
     {
         $delete = League::findOrFail($id);
         $delete->delete();
+
         return back()->with('success', 'League deleted successfully');
     }
 }

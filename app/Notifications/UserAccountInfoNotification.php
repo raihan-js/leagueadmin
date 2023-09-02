@@ -3,14 +3,15 @@
 namespace App\Notifications;
 
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
 class UserAccountInfoNotification extends Notification
 {
     use Queueable;
+
     private $name;
+
     private $password;
 
     /**
@@ -20,8 +21,8 @@ class UserAccountInfoNotification extends Notification
      */
     public function __construct($data)
     {
-        $this -> name = $data[0];
-        $this -> password = $data[1];
+        $this->name = $data[0];
+        $this->password = $data[1];
     }
 
     /**
@@ -44,11 +45,12 @@ class UserAccountInfoNotification extends Notification
     public function toMail($notifiable)
     {
         $url = url('https://leagueadmin.net/dashboard');
+
         return (new MailMessage)
-                    ->greeting('Hi! ' . $this->name)
+                    ->greeting('Hi! '.$this->name)
                     ->line('Welcome to LeagueAdmin!')
                     ->line('Your account has been created.')
-                    ->line('Your password: ' . $this->password )
+                    ->line('Your password: '.$this->password)
                     ->action('Login', $url);
     }
 

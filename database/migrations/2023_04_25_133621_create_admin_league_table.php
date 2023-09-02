@@ -19,7 +19,7 @@ return new class extends Migration
             $table->unsignedBigInteger('admin_id');
             $table->enum('role', ['primary', 'secondary'])->default('secondary');
             $table->timestamps();
-            
+
             $table->foreign('league_id')->references('id')->on('leagues')->onDelete('cascade');
             $table->foreign('admin_id')->references('id')->on('admins')->onDelete('cascade');
         });

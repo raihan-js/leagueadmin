@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers\Schedule;
 
-use App\Models\Team;
-use App\Models\League;
-use Illuminate\Http\Request;
-use App\Models\MasterSchedule;
-use App\Models\WeeklySchedule;
 use App\Http\Controllers\Controller;
+use App\Models\League;
+use App\Models\MasterSchedule;
+use App\Models\Team;
+use App\Models\WeeklySchedule;
+use Illuminate\Http\Request;
 
 class WeeklyScheduleController extends Controller
 {
@@ -29,8 +29,8 @@ class WeeklyScheduleController extends Controller
             'type' => '',
             'teams' => $teams,
             'masterSchedules' => $masterSchedules,
-            'leagues' => $leagues, 
-            'weeklyschedules'   => $weeklySchedules,
+            'leagues' => $leagues,
+            'weeklyschedules' => $weeklySchedules,
         ]);
     }
 
@@ -67,11 +67,10 @@ class WeeklyScheduleController extends Controller
         $masterSchedules = MasterSchedule::all();
         $weeklySchedules = WeeklySchedule::all();
 
-
         return view('pages.schedules.weekly.index', [
-            'masterSchedules'   => $masterSchedules,
-            'weeklyschedules'   => $weeklySchedules,
-            'type'            => '',
+            'masterSchedules' => $masterSchedules,
+            'weeklyschedules' => $weeklySchedules,
+            'type' => '',
         ]);
     }
 
@@ -101,12 +100,12 @@ class WeeklyScheduleController extends Controller
         $weeklySchedule = WeeklySchedule::findOrFail($id);
         $masterSchedules = MasterSchedule::all();
         $weeklySchedules = WeeklySchedule::all();
-    
+
         return view('pages.schedules.weekly.index', [
             'weeklySchedule' => $weeklySchedule,
             'masterSchedules' => $masterSchedules,
-            'type'          => 'edit',
-            'weeklyschedules'   => $weeklySchedules,
+            'type' => 'edit',
+            'weeklyschedules' => $weeklySchedules,
         ]);
     }
 
@@ -124,14 +123,14 @@ class WeeklyScheduleController extends Controller
             'master_schedules' => 'required|array',
             'master_schedules.*' => 'exists:master_schedules,id',
         ]);
-    
+
         $weeklySchedule = WeeklySchedule::findOrFail($id);
-    
+
         $weeklySchedule->title = $validatedData['title'];
         $weeklySchedule->save();
-    
+
         $weeklySchedule->masterSchedules()->sync($validatedData['master_schedules']);
-    
+
         return redirect()->route('weeklyschedules.index')->with('success', 'Weekly Schedule updated successfully');
     }
 
@@ -143,7 +142,7 @@ class WeeklyScheduleController extends Controller
      */
     public function destroy($id)
     {
-         // Find the weekly schedule by its ID
+        // Find the weekly schedule by its ID
         $weeklySchedule = WeeklySchedule::findOrFail($id);
 
         // Delete the weekly schedule

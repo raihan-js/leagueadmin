@@ -17,9 +17,10 @@ class PermissionController extends Controller
     public function index()
     {
         $permissions = Permission::latest()->get();
+
         return view('pages.user.permission.index', [
             'all_permissions' => $permissions,
-            'type'            => '',
+            'type' => '',
         ]);
     }
 
@@ -43,13 +44,13 @@ class PermissionController extends Controller
     {
         // Fields Validation
         $this->validate($request, [
-            'name'      => 'required|unique:permissions',
+            'name' => 'required|unique:permissions',
         ]);
 
         // Data Store
         Permission::create([
-            'name'      => $request->name,
-            'slug'      => Str::slug($request->name),
+            'name' => $request->name,
+            'slug' => Str::slug($request->name),
         ]);
 
         return back()->with('success', 'Permission added successfully');
@@ -76,10 +77,11 @@ class PermissionController extends Controller
     {
         $permissions = Permission::latest()->get();
         $per = Permission::findOrFail($id);
+
         return view('pages.user.permission.index', [
-            'edit'            => $per,
+            'edit' => $per,
             'all_permissions' => $permissions,
-            'type'            => 'edit',
+            'type' => 'edit',
         ]);
     }
 
@@ -94,9 +96,10 @@ class PermissionController extends Controller
     {
         $update_data = Permission::findOrFail($id);
         $update_data->update([
-            'name'      => $request->name,
-            'slug'      => Str::slug($request->name),
+            'name' => $request->name,
+            'slug' => Str::slug($request->name),
         ]);
+
         return redirect()->route('permissions.index')->with('success', 'Permission updated successfully');
     }
 
@@ -110,6 +113,7 @@ class PermissionController extends Controller
     {
         $delete = Permission::findOrFail($id);
         $delete->delete();
+
         return back()->with('success', 'Permission deleted successfully');
     }
 }
