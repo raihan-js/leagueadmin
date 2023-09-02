@@ -36,19 +36,19 @@ Route::group([ 'middleware' => 'admin' ], function(){
     Route::get('account/connections', [AdminPageController::class, 'showAdminConnections'])->name('admin.connections');
 
     // Pages
-    Route::resource('permissions', PermissionController::class);
-    Route::resource('roles', RoleController::class);
-    Route::resource('admins', AdminController::class);
-    Route::resource('leagues', LeagueController::class);
-    Route::resource('teams', TeamController::class);
-    Route::resource('masterschedules', MasterScheduleController::class);
-    Route::resource('weeklyschedules', WeeklyScheduleController::class);
+    Route::resource('permissions', PermissionController::class)->middleware('check.role:Super Admin');
+    Route::resource('roles', RoleController::class)->middleware('check.role:Super Admin');
+    Route::resource('admins', AdminController::class)->middleware('check.role:Super Admin,Admin');
+    Route::resource('leagues', LeagueController::class)->middleware('check.role:Super Admin,Admin');
+    Route::resource('teams', TeamController::class)->middleware('check.role:Super Admin, Admin, League Admin,Ump/Ref');
+    Route::resource('masterschedules', MasterScheduleController::class)->middleware('check.role:Super Admin,Admin');
+    Route::resource('weeklyschedules', WeeklyScheduleController::class)->middleware('check.role:Super Admin,Admin');
     // Master schedule import 
-    Route::post('masterschedules/import', [MasterScheduleController::class, 'import'])->name('masterschedules.import');
+    Route::post('masterschedules/import', [MasterScheduleController::class, 'import'])->name('masterschedules.import')->middleware('check.role:Super Admin,Admin');
     // Status update GET
-    Route::get('update-status/{id}', [AdminController::class, 'updateStatus'])->name('update.status');
+    Route::get('update-status/{id}', [AdminController::class, 'updateStatus'])->name('update.status')->middleware('check.role:Super Admin');
     // League single show
-    Route::get('/leagues/{league}', [LeagueController::class, 'show'])->name('leagues.show');
+    Route::get('/leagues/{league}', [LeagueController::class, 'show'])->name('leagues.show')->middleware('check.role:Super Admin,Admin,League Admin');
 
 });
 

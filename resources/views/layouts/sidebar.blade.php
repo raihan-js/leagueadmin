@@ -24,12 +24,23 @@
     <ul class="menu-inner py-1">
       <!-- Dashboard -->
       {{-- @if( in_array( 'Dashboard', json_decode( Auth::guard('admin')->user()->role->permissions ) ) ) --}}
+      @php
+      $authenticatedAdmin = auth('admin')->user();
+      @endphp
+      
+      <!-- Dashboard -->
+      @if (
+          $authenticatedAdmin &&
+          $authenticatedAdmin->role &&
+          in_array('Dashboard', json_decode($authenticatedAdmin->role->permissions))
+      )
       <li class="menu-item">
-        <a href="{{ route('admin.dashboard') }}" class="menu-link">
-          <i class="menu-icon tf-icons bx bx-home-circle"></i>
-          <div data-i18n="Basic">Dashboard</div>
-        </a>
+          <a href="{{ route('admin.dashboard') }}" class="menu-link">
+              <i class="menu-icon tf-icons bx bx-home-circle"></i>
+              <div data-i18n="Basic">Dashboard</div>
+          </a>
       </li>
+      @endif
       {{-- @endif --}}
       
 

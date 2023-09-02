@@ -9,6 +9,11 @@ use Illuminate\Support\Str;
 
 class PermissionController extends Controller
 {
+    // public function __construct()
+    // {
+    //     // Apply the 'check.role' middleware to specific methods
+    //     $this->middleware('check.role:League Admin')->only(['index','edit']);
+    // }
     /**
      * Display a listing of the resource.
      *
