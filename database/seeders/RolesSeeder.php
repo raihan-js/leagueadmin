@@ -23,12 +23,12 @@ class RolesSeeder extends Seeder
             ],
             [
                 'name' => 'League Admin',
-                'slug' => 'league_admin',
+                'slug' => 'league-admin',
                 'permissions' => ['leagues', 'dashboard', 'teams', 'availability'],
             ],
             [
                 'name' => 'Ump/Ref',
-                'slug' => 'ump_ref',
+                'slug' => 'ump-ref',
                 'permissions' => ['leagues', 'teams'],
             ],
         ];
