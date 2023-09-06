@@ -41,6 +41,7 @@ class MasterScheduleApiController extends Controller
             'time' => 'required|date_format:H:i:s',
             'location' => 'nullable|string',
             'sub_location' => 'nullable|string',
+						'color' => 'white'
         ]);
 
         $masterSchedule = MasterSchedule::create($data);
