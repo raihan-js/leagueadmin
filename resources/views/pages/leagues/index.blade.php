@@ -217,8 +217,8 @@
             <p><strong>Type:</strong> {{ $item->type }}</p>
             <p class="card-text"><strong>Start Date:</strong> {{ $item->start_date }}</p>
             <p class="card-text"><strong>Weeks:</strong> {{ $item->weeks }}</p>
-            <p class="card-text"><strong>Primary Ump/Ref:</strong> {{ $item->admins()->wherePivot('role', 'primary')->first()->name }}</p>
-            <p class="card-text"><strong>Secondary Ump/Ref:</strong> {{ $item->admins()->wherePivot('role', 'secondary')->first()->name }}</p>
+            <p class="card-text"><strong>Primary Ump/Ref:</strong> {{ optional($item->admins()->wherePivot('role', 'primary')->first())->name }}</p>
+            <p class="card-text"><strong>Secondary Ump/Ref:</strong> {{ optional($item->admins()->wherePivot('role', 'secondary')->first())->name }}</p>
             <p class="card-text">{{ $item->created_at->diffForHumans() }}</p>
             <a href="{{ route('leagues.show', $item->id) }}" class="btn rounded-pill btn-icon btn-outline-primary"><i class='bx bx-right-arrow-alt'></i></a>
           </div>
